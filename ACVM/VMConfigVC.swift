@@ -25,6 +25,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     @IBOutlet weak var actionButton: NSButton!
     @IBOutlet weak var cancelButton: NSButton!
     @IBOutlet weak var resetNVRAMButton: NSButton!
+    @IBOutlet weak var useVirtIOForDisk: NSButton!
+    @IBOutlet weak var enableWriteThroughCache: NSButton!
     
     var virtMachine:VirtualMachine = VirtualMachine()
     
@@ -73,6 +75,22 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             unhideMousePointer.state = .off
         }
         
+        if virtMachine.config.mainImageUseVirtIO {
+            useVirtIOForDisk.state = .on
+        }
+        else
+        {
+            useVirtIOForDisk.state = .off
+        }
+        
+        if virtMachine.config.mainImageUseWTCache {
+            enableWriteThroughCache.state = .on
+        }
+        else
+        {
+            enableWriteThroughCache.state = .off
+        }
+        
         graphicPopupButton.selectItem(withTitle: virtMachine.config.graphicOptions)
         nicOptionsTextField.stringValue = virtMachine.config.nicOptions
     }
@@ -117,6 +135,22 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                 else
                 {
                     virtMachine.config.unhideMousePointer = true
+                }
+                
+                if useVirtIOForDisk.state == .off {
+                    virtMachine.config.mainImageUseVirtIO = false
+                }
+                else
+                {
+                    virtMachine.config.mainImageUseVirtIO = true
+                }
+                
+                if enableWriteThroughCache.state == .off {
+                    virtMachine.config.mainImageUseWTCache = false
+                }
+                else
+                {
+                    virtMachine.config.mainImageUseWTCache = true
                 }
                 
                 virtMachine.config.graphicOptions = displayAdaptor
@@ -246,7 +280,7 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         case mainImage:
             mainImage.contentURL = contentURL
         case cdImage:
-            mainImage.contentURL = contentURL
+            cdImage.contentURL = contentURL
         default:
             break
         }
