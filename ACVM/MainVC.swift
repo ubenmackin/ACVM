@@ -13,10 +13,12 @@ class MainVC: NSViewController {
     @IBOutlet weak var vmStateTextField: NSTextField!
     @IBOutlet weak var vmCoresTextField: NSTextField!
     @IBOutlet weak var vmRAMTextField: NSTextField!
+    @IBOutlet weak var vmLiveImage: NSImageView!
     
     @IBOutlet weak var vmConfigTableView: NSTableView!
     
-    var vmList: [VirtualMachine]? = []
+    let delegate = NSApplication.shared.delegate as! AppDelegate
+    private var firstOpen:Bool = true
     
     func setupNotifications()
     {
@@ -28,6 +30,11 @@ class MainVC: NSViewController {
     func updateVMStateTextField(_ notification: NSNotification) {
         
         let state = (notification.object) as! Int
+        
+        if firstOpen {
+            firstOpen = false
+            return
+        }
         
         switch state {
         case 0:
@@ -71,19 +78,19 @@ class MainVC: NSViewController {
                         let vm = VirtualMachine()
                         vm.config = vmConfig
                         
-                        if vmList!.contains(where: { element in element.config.vmname == vm.config.vmname }) {
+                        if delegate.vmList!.contains(where: { element in element.config.vmname == vm.config.vmname }) {
                             // Item exists
                         } else {
-                            vmList!.append(vm)
+                            delegate.vmList!.append(vm)
                             retVal = true
                         }
                     }
                 }
             }
                 
-            let numOfVMs = vmList?.count
+            let numOfVMs = delegate.vmList?.count
             
-            vmList!.removeAll(where: { element in
+            delegate.vmList!.removeAll(where: { element in
                 if !FileManager.default.fileExists(atPath: directoryURL.path + "/" + element.config.vmname + ".plist") {
                     return true
                 }
@@ -92,7 +99,7 @@ class MainVC: NSViewController {
                 }
             })
             
-            if numOfVMs != vmList?.count {
+            if numOfVMs != delegate.vmList?.count {
                 retVal = true
             }
             
@@ -100,7 +107,7 @@ class MainVC: NSViewController {
             // failed to read directory – bad permissions, perhaps?
         }
         
-        vmList?.sort {
+        delegate.vmList?.sort {
             $0.config.vmname.uppercased() < $1.config.vmname.uppercased()
         }
         
@@ -109,6 +116,8 @@ class MainVC: NSViewController {
     
     func populateVMAttributes(_ vm: VirtualMachine) {
         let vmConfig = vm.config
+        
+        vmLiveImage.image = vm.liveImage
         
         vmNameTextField.stringValue = vmConfig.vmname
         
@@ -156,7 +165,7 @@ class MainVC: NSViewController {
 
     @objc func tableViewDoubleClick(_ sender:AnyObject) {
         guard vmConfigTableView.selectedRow >= 0,
-              let item = vmList?[vmConfigTableView.selectedRow] else {
+              let item = delegate.vmList?[vmConfigTableView.selectedRow] else {
             return
         }
         
@@ -170,7 +179,7 @@ class MainVC: NSViewController {
     override func prepare (for segue: NSStoryboardSegue, sender: Any?)
     {
         if  let viewController = segue.destinationController as? VMConfigVC {
-            viewController.virtMachine = (vmList?[vmConfigTableView.selectedRow])!
+            viewController.virtMachine = (delegate.vmList?[vmConfigTableView.selectedRow])!
         }
     }
     
@@ -188,7 +197,7 @@ extension NSTableView {
 extension MainVC: NSTableViewDataSource {
 
   func numberOfRows(in tableView: NSTableView) -> Int {
-    return vmList?.count ?? 0
+    return delegate.vmList?.count ?? 0
   }
 
   func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
@@ -213,7 +222,7 @@ extension MainVC: NSTableViewDelegate {
         var text: String = ""
         var cellIdentifier: String = ""
         
-        guard let item = vmList?[row] else {
+        guard let item = delegate.vmList?[row] else {
             return nil
         }
         
@@ -236,7 +245,7 @@ extension MainVC: NSTableViewDelegate {
         if (notification.object as? NSTableView) != nil {
             
             if vmConfigTableView.selectedRow >= 0,
-               let item = vmList?[vmConfigTableView.selectedRow] {
+               let item = delegate.vmList?[vmConfigTableView.selectedRow] {
                 populateVMAttributes(item)
                 
                 let itemInfo:[String: VirtualMachine] = ["config": item]
