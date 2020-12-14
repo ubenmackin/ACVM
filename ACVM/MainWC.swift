@@ -20,6 +20,7 @@ class MainWC: NSWindowController {
     @IBOutlet weak var pauseButton: NSToolbarItem!
     @IBOutlet weak var configButton: NSToolbarItem!
     @IBOutlet weak var deleteButton: NSToolbarItem!
+    @IBOutlet weak var headlessStartButton: NSToolbarItem!
     
     private var configButtonAction: Selector!
     
@@ -40,9 +41,12 @@ class MainWC: NSWindowController {
                     try FileManager.default.removeItem(atPath: directoryURL.path + "/" + self.virtMachine.config.vmname + ".plist")
                     try FileManager.default.removeItem(atPath: self.virtMachine.config.nvram)
                     
-                    self.virtMachine.process = nil
-                    self.virtMachine.state = 0
-                    self.updateStates()
+                    if self.virtMachine.process != nil {
+                        self.virtMachine.process?.terminate()
+                        self.virtMachine.process = nil
+                        self.virtMachine.state = 0
+                        self.updateStates()
+                    }
                     
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshVMList"), object: nil)
                     self.updateCurrentVMConfig()
@@ -101,13 +105,12 @@ class MainWC: NSWindowController {
         if virtMachine.client != nil {
             virtMachine.client!.close()
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.virtMachine.client = nil
             }
         }
 
-        virtMachine.config.cdImage = ""
-        cdImageURL = nil
+        virtMachine.config.mountCDImage = false
         let appSupportURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let directoryURL = appSupportURL.appendingPathComponent("com.oltica.ACVM")
           
@@ -145,6 +148,7 @@ class MainWC: NSWindowController {
         deleteButton.action = nil
         stopButton.action = nil
         pauseButton.action = nil
+        headlessStartButton.action = nil
     }
     
     private func updateStates() {
@@ -152,16 +156,19 @@ class MainWC: NSWindowController {
         if virtMachine.state == 0 { // Stopped
             stopButton.action = nil
             startButton.action = #selector(didTapStartButton(_:))
+            headlessStartButton.action = #selector(didTapStartButton(_:))
             pauseButton.action = nil
             deleteButton.action = #selector(didTapDeleteVMButton(_:))
         } else if virtMachine.state == 1 { // Started
             stopButton.action = #selector(didTapStopButton(_:))
             startButton.action = nil
+            headlessStartButton.action = nil
             pauseButton.action = #selector(didTapPauseButton(_:))
             deleteButton.action = nil
         } else if virtMachine.state == 2 { // Paused
             stopButton.action = #selector(didTapStopButton(_:))
             startButton.action = nil //#selector(didTapStartButton(_:))
+            headlessStartButton.action = nil
             pauseButton.action = #selector(didTapUnPauseButton(_:))
             deleteButton.action = #selector(didTapDeleteVMButton(_:))
         }
@@ -182,6 +189,8 @@ class MainWC: NSWindowController {
     func updateCurrentVMConfig(_ notification: NSNotification) {
         configButton.action = nil
         startButton.action = nil
+        headlessStartButton.action = nil
+        pauseButton.action = nil
         deleteButton.action = nil
         stopButton.action = nil
         
@@ -194,7 +203,7 @@ class MainWC: NSWindowController {
         if virtMachine.client != nil {
             virtMachine.client?.send(message: "{ \"execute\": \"screendump\", \"arguments\": { \"filename\": \"/tmp/here.ppm\" } }\r\n")
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.virtMachine.liveImage = NSImage(byReferencingFile: "/tmp/here.ppm")
             }
         }
@@ -208,7 +217,7 @@ class MainWC: NSWindowController {
         stopButton.action = nil
     }
     
-    @IBAction func didTapStartButton(_ sender: Any) {
+    @IBAction func didTapStartButton(_ sender: NSToolbarItem) {
         
         guard virtMachine.process == nil else {
             virtMachine.process?.terminate()
@@ -223,10 +232,15 @@ class MainWC: NSWindowController {
             mainImageURL = contentURL
         }
         
-        let cdImageFilePath = virtMachine.config.cdImage
-        if FileManager.default.fileExists(atPath: cdImageFilePath) {
-            let contentURL = URL(fileURLWithPath: cdImageFilePath)
-            cdImageURL = contentURL
+        if virtMachine.config.mountCDImage {
+            let cdImageFilePath = virtMachine.config.cdImage
+            if FileManager.default.fileExists(atPath: cdImageFilePath) {
+                let contentURL = URL(fileURLWithPath: cdImageFilePath)
+                cdImageURL = contentURL
+            }
+        }
+        else {
+            cdImageURL = nil
         }
         
         guard let efiURL = Bundle.main.url(forResource: "QEMU_EFI", withExtension: "fd"),
@@ -302,7 +316,12 @@ class MainWC: NSWindowController {
             ]
         }
         
-        if virtMachine.config.unhideMousePointer {
+        if sender.label == "Headless" {
+            arguments += [
+                "-display", "none",
+                "-serial", "stdio"
+            ]
+        } else if virtMachine.config.unhideMousePointer {
             arguments += [
                 "-display","cocoa,show-cursor=on"
             ]
@@ -311,6 +330,7 @@ class MainWC: NSWindowController {
         if 1==0 {
             arguments += [
                 //"-usb", "-device", "nec-usb-xhci",
+                //"-device", "usb-host,hostbus=0,hostaddr=0",
                 //"-device", "usb-host,hostbus=0,hostaddr=1"
                 // hostaddr=1 doesn't show anything in linux
                 // hostaddr=0 shows a record in lsusb
@@ -339,11 +359,14 @@ class MainWC: NSWindowController {
             }
             
             let client = TCPClient()
+            client.delegate = self
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                client.setupNetworkCommunication(UInt32(port))
-                client.initQMPConnection()
-                self.virtMachine.client = client
+                if process.isRunning {
+                    client.setupNetworkCommunication(UInt32(port))
+                    client.initQMPConnection()
+                    self.virtMachine.client = client
+                }
             }
             
         } catch {
@@ -355,4 +378,10 @@ class MainWC: NSWindowController {
         
         updateStates()
     }
+}
+
+extension MainWC: TCPClientDelegate {
+  func received(message: Message) {
+//    print(message.message)
+  }
 }

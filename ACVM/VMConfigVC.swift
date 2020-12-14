@@ -9,26 +9,75 @@ import Cocoa
 
 class VMConfigVC: NSViewController, FileDropViewDelegate {
     
-    @IBOutlet weak var unhideMousePointer: NSButton!
-    @IBOutlet weak var mainImage: FileDropView!
-    @IBOutlet weak var cdImage: FileDropView!
-    @IBOutlet weak var vmNameTextField: NSTextField!
+    @IBOutlet weak var tabView: NSTabView!
     
-    @IBOutlet weak var cpuTextField: NSTextField!
-    @IBOutlet weak var ramTextField: NSTextField!
-    @IBOutlet weak var nicOptionsTextField: NSTextField!
-    
-    @IBOutlet weak var graphicPopupButton: NSPopUpButton!
-    
-    @IBOutlet weak var vmNameAlertTextField: NSTextField!
+    @IBOutlet weak var cpuTabButton: NSButton!
+    @IBOutlet weak var disksTabButton: NSButton!
+    @IBOutlet weak var networkTabButton: NSButton!
     
     @IBOutlet weak var actionButton: NSButton!
     @IBOutlet weak var cancelButton: NSButton!
     @IBOutlet weak var resetNVRAMButton: NSButton!
+    
+    @IBOutlet weak var vmNameTextField: NSTextField!
+    @IBOutlet weak var vmNameAlertTextField: NSTextField!
+    
+    // CPU Pane
+    @IBOutlet weak var cpuTextField: NSTextField!
+    @IBOutlet weak var ramTextField: NSTextField!
+    @IBOutlet weak var graphicPopupButton: NSPopUpButton!
+    @IBOutlet weak var unhideMousePointer: NSButton!
+    
+    // Disk Pane
+    @IBOutlet weak var mainImage: FileDropView!
     @IBOutlet weak var useVirtIOForDisk: NSButton!
     @IBOutlet weak var enableWriteThroughCache: NSButton!
     
+    @IBOutlet weak var cdImage: FileDropView!
+    @IBOutlet weak var mountCDImage: NSButtonCell!
+    @IBOutlet weak var removeCDButton: NSButton!
+    
+    // Network Pane
+    @IBOutlet weak var nicOptionsTextField: NSTextField!
+    
     var virtMachine:VirtualMachine = VirtualMachine()
+    
+    // MARK: Navigation Buttons
+    
+    @IBAction func didTabCPUButton(_ sender: NSButton) {
+        cpuTabButton.isBordered = true
+        disksTabButton.isBordered = false
+        networkTabButton.isBordered = false
+        
+        tabView.selectTabViewItem(at: 0)
+        self.preferredContentSize = NSSize(width: 456, height: 438)
+
+        //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 438), display: true, animate: true)
+    }
+    
+    @IBAction func didTapDiskButton(_ sender: NSButton) {
+        cpuTabButton.isBordered = false
+        disksTabButton.isBordered = true
+        networkTabButton.isBordered = false
+        
+        tabView.selectTabViewItem(at: 1)
+        self.preferredContentSize = NSSize(width: 456, height: 438)
+
+        //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 438), display: true, animate: true)
+    }
+    
+    @IBAction func didTapNetworkButton(_ sender: NSButton) {
+        cpuTabButton.isBordered = false
+        disksTabButton.isBordered = false
+        networkTabButton.isBordered = true
+        
+        tabView.selectTabViewItem(at: 2)
+        self.preferredContentSize = NSSize(width: 456, height: 300)
+        
+        //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 300), display: true, animate: true)
+    }
+    
+    // MARK: Remainder of Class
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +92,20 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             }
             
             vmNameTextField.isEditable = false
+            
+            if virtMachine.config.mainImage != "" {
+                mainImage.toolTip = URL(fileURLWithPath: virtMachine.config.mainImage).lastPathComponent
+            }
+            
+            if virtMachine.config.cdImage != "" {
+                cdImage.toolTip = URL(fileURLWithPath: virtMachine.config.cdImage).lastPathComponent
+            }
         }
         
         mainImage.delegate = self
         cdImage.delegate = self
+        
+        self.preferredContentSize = NSSize(width: 456, height: 438)
     }
     
     func loadConfigValues() {
@@ -65,6 +124,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         if FileManager.default.fileExists(atPath: cdImageFilePath) {
             let contentURL = URL(fileURLWithPath: cdImageFilePath)
             cdImage.contentURL = contentURL
+            removeCDButton.isEnabled = true
+            mountCDImage.isEnabled = true
         }
         
         if virtMachine.config.unhideMousePointer {
@@ -89,6 +150,14 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         else
         {
             enableWriteThroughCache.state = .off
+        }
+        
+        if virtMachine.config.mountCDImage {
+            mountCDImage.state = .on
+        }
+        else
+        {
+            mountCDImage.state = .off
         }
         
         graphicPopupButton.selectItem(withTitle: virtMachine.config.graphicOptions)
@@ -151,6 +220,14 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                 else
                 {
                     virtMachine.config.mainImageUseWTCache = true
+                }
+                
+                if mountCDImage.state == .off {
+                    virtMachine.config.mountCDImage = false
+                }
+                else
+                {
+                    virtMachine.config.mountCDImage = true
                 }
                 
                 virtMachine.config.graphicOptions = displayAdaptor
@@ -227,6 +304,15 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         }
     }
     
+    @IBAction func didTapRemoveButton(_ sender: Any) {
+        cdImage.contentURL = nil
+        //virtMachine.config.cdImage = ""
+        removeCDButton.isEnabled = false
+        mountCDImage.state = .off
+        mountCDImage.isEnabled = false
+    }
+    
+    
     // MARK: Machine Props
     
     private var vmConfigName: String {
@@ -281,6 +367,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             mainImage.contentURL = contentURL
         case cdImage:
             cdImage.contentURL = contentURL
+            removeCDButton.isEnabled = true
+            mountCDImage.isEnabled = true
         default:
             break
         }
