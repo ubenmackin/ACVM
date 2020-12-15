@@ -23,7 +23,11 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                            <connections>
+                                                <segue destination="x2w-SR-3jW" kind="show" id="lZs-3p-I8L"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Check for Updates..." id="b34-Pd-lnt">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -77,6 +81,13 @@
                                             <connections>
                                                 <action selector="newDocument:" target="Ady-hI-5gd" id="8y3-OT-S0F"/>
                                                 <segue destination="2OS-uf-PXm" kind="show" id="eyu-U4-Hb7"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Convert Disk Image..." id="4ep-5u-n5d">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="newDocument:" target="Ady-hI-5gd" id="1YE-Ll-7lX"/>
+                                                <segue destination="Swe-DG-5o9" kind="show" id="Hly-2R-Mkc"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="fBN-Zy-Ey7"/>
@@ -1226,10 +1237,202 @@ DQ
             </objects>
             <point key="canvasLocation" x="-72" y="902"/>
         </scene>
+        <!--Disk Image Converstion-->
+        <scene sceneID="oMh-CJ-2Gv">
+            <objects>
+                <viewController title="Disk Image Converstion" showSeguePresentationStyle="single" id="Swe-DG-5o9" customClass="DiskConvertVC" customModule="ACVM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="MKq-55-ovk">
+                        <rect key="frame" x="0.0" y="0.0" width="524" height="165"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UXd-Sd-gTf">
+                                <rect key="frame" x="435" y="13" width="76" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hjG-Wh-uTA">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="didTapCancelButton:" target="Swe-DG-5o9" id="meg-LR-xgk"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="auZ-KL-wkq">
+                                <rect key="frame" x="18" y="55" width="75" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Disk Image:" id="341-4G-3pn">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nmz-ZJ-VRX">
+                                <rect key="frame" x="99" y="52" width="245" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="p3W-2J-Nv1">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dMj-Eq-Kat">
+                                <rect key="frame" x="345" y="13" width="92" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <buttonCell key="cell" type="push" title="Convert" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VBR-9V-cyR">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="didTapCreateButton:" target="Swe-DG-5o9" id="LPj-r8-3Kj"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zsw-sq-uTE">
+                                <rect key="frame" x="345" y="45" width="92" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <buttonCell key="cell" type="push" title="Choose..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wcj-bx-P2m">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="didTapChooseButton:" target="Swe-DG-5o9" id="EBe-70-LIw"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mdq-ip-BIu">
+                                <rect key="frame" x="18" y="81" width="488" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" id="uRw-bJ-WHa">
+                                    <font key="font" metaFont="system"/>
+                                    <string key="title">This process will take an existing disk image (such as raw or vhdx) and convert it to qcow2.
+
+This process can take a minute or more to complete.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <progressIndicator hidden="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="IfP-TF-8s4">
+                                <rect key="frame" x="99" y="20" width="245" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressIndicator>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" preferredMaxLayoutWidth="71" translatesAutoresizingMaskIntoConstraints="NO" id="LMF-l8-bbT">
+                                <rect key="frame" x="18" y="22" width="75" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" id="gfx-Pb-CQR">
+                                    <font key="font" metaFont="system" size="11"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="chooseButton" destination="zsw-sq-uTE" id="eue-wN-K53"/>
+                        <outlet property="createButton" destination="dMj-Eq-Kat" id="nhK-hG-pOG"/>
+                        <outlet property="diskLocationTextField" destination="nmz-ZJ-VRX" id="ikn-lt-xLJ"/>
+                        <outlet property="progressBar" destination="IfP-TF-8s4" id="VWu-hM-aeN"/>
+                        <outlet property="progressTextField" destination="LMF-l8-bbT" id="Men-19-fwY"/>
+                    </connections>
+                </viewController>
+                <customObject id="as5-lc-ZxK" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-93" y="56.5"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="51A-9g-P2B">
+            <objects>
+                <windowController showSeguePresentationStyle="single" id="x2w-SR-3jW" sceneMemberID="viewController">
+                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Tm4-2A-Rhl">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <rect key="contentRect" x="196" y="239" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
+                        <view key="contentView" id="jOS-Jj-jRu">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="x2w-SR-3jW" id="YjV-pC-c3a"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="ZII-3E-xMZ" kind="relationship" relationship="window.shadowedContentViewController" id="nbW-4Z-Bqx"/>
+                    </connections>
+                </windowController>
+                <customObject id="EC6-5k-KM1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1652" y="335"/>
+        </scene>
+        <!--Update-->
+        <scene sceneID="zr5-33-ycB">
+            <objects>
+                <viewController title="Update" id="ZII-3E-xMZ" sceneMemberID="viewController">
+                    <view key="view" id="pz9-Wl-czy">
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="140"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ivi-aV-kUe">
+                                <rect key="frame" x="91" y="104.5" width="204" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Automatically check for updates" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="pYJ-ch-gAE">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="label" size="12"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="G1W-yt-xbZ" name="value" keyPath="automaticallyChecksForUpdates" id="Yk0-dp-Vo9"/>
+                                </connections>
+                            </button>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CDJ-02-cbM">
+                                <rect key="frame" x="235" y="62" width="175" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <popUpButtonCell key="cell" type="push" title="Hourly" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="3600" imageScaling="proportionallyDown" inset="2" selectedItem="YhL-8m-13C" id="aHr-qN-4hm">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="DKP-qi-YjT">
+                                        <items>
+                                            <menuItem title="Hourly" state="on" tag="3600" id="YhL-8m-13C">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="Daily" tag="86400" id="j3R-kY-UIo">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="Weekly" tag="604800" id="dd5-RD-wtb">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="Monthly" tag="2629800" id="svE-kX-P5g">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <binding destination="G1W-yt-xbZ" name="enabled" keyPath="automaticallyChecksForUpdates" id="Gea-oI-t8Z"/>
+                                    <binding destination="G1W-yt-xbZ" name="selectedTag" keyPath="updateCheckInterval" id="ZyL-0G-uWT"/>
+                                </connections>
+                            </popUpButton>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nd8-tc-KUZ">
+                                <rect key="frame" x="91" y="69" width="125" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Check For Updates:" id="ZEt-ge-tI6">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="IX4-17-Zuw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="G1W-yt-xbZ" customClass="SUUpdater"/>
+            </objects>
+            <point key="canvasLocation" x="-1642" y="739"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="HEI-Jc-jYB"/>
-        <segue reference="oEB-Gt-Nuw"/>
+        <segue reference="4GJ-XX-DCp"/>
+        <segue reference="eyu-U4-Hb7"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NSAddTemplate" width="14" height="13"/>
