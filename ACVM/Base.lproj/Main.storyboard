@@ -417,7 +417,7 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="hcf-IT-IZQ" customClass="SUUpdater"/>
             </objects>
-            <point key="canvasLocation" x="-734" y="-49"/>
+            <point key="canvasLocation" x="-735" y="-127"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="XS6-GQ-2zy">
@@ -1322,7 +1322,7 @@ This process can take a minute or more to complete.</string>
                                 <rect key="frame" x="18" y="22" width="75" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" id="gfx-Pb-CQR">
-                                    <font key="font" metaFont="system" size="11"/>
+                                    <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -1344,13 +1344,13 @@ This process can take a minute or more to complete.</string>
         <!--Window Controller-->
         <scene sceneID="51A-9g-P2B">
             <objects>
-                <windowController showSeguePresentationStyle="single" id="x2w-SR-3jW" sceneMemberID="viewController">
-                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Tm4-2A-Rhl">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <rect key="contentRect" x="196" y="239" width="480" height="270"/>
+                <windowController showSeguePresentationStyle="single" id="x2w-SR-3jW" customClass="PrefsWC" customModule="ACVM" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" toolbarStyle="preference" id="Tm4-2A-Rhl">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+                        <rect key="contentRect" x="196" y="239" width="500" height="140"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
                         <view key="contentView" id="jOS-Jj-jRu">
-                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <rect key="frame" x="0.0" y="0.0" width="500" height="140"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </view>
                         <connections>
@@ -1358,24 +1358,118 @@ This process can take a minute or more to complete.</string>
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="ZII-3E-xMZ" kind="relationship" relationship="window.shadowedContentViewController" id="nbW-4Z-Bqx"/>
+                        <segue destination="QXX-ND-XN9" kind="relationship" relationship="window.shadowedContentViewController" id="7BM-WH-4K4"/>
                     </connections>
                 </windowController>
                 <customObject id="EC6-5k-KM1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1652" y="335"/>
         </scene>
+        <!--Preferences-->
+        <scene sceneID="ScK-bX-kLK">
+            <objects>
+                <tabViewController title="Preferences" showSeguePresentationStyle="single" selectedTabViewItemIndex="0" tabStyle="toolbar" id="QXX-ND-XN9" customClass="PreferencesTabViewController" customModule="ACVM" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem label="Interface" identifier="" image="NSAdvanced" id="u5R-OD-aky"/>
+                        <tabViewItem label="Update" image="NSMobileMe" id="BMI-0h-YzR"/>
+                    </tabViewItems>
+                    <viewControllerTransitionOptions key="transitionOptions" allowUserInteraction="YES"/>
+                    <tabView key="tabView" type="noTabsNoBorder" id="N25-Ew-iyv">
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="140"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="system"/>
+                        <connections>
+                            <outlet property="delegate" destination="QXX-ND-XN9" id="jj1-iS-O4T"/>
+                        </connections>
+                    </tabView>
+                    <connections>
+                        <outlet property="tabView" destination="N25-Ew-iyv" id="sJO-P1-UQt"/>
+                        <segue destination="JIe-wJ-Yxe" kind="relationship" relationship="tabItems" id="dc1-Qi-kkw"/>
+                        <segue destination="ZII-3E-xMZ" kind="relationship" relationship="tabItems" id="2Rx-Hp-xLv"/>
+                    </connections>
+                </tabViewController>
+                <customObject id="jIP-2y-yUL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2180" y="731"/>
+        </scene>
+        <!--Interface-->
+        <scene sceneID="VO9-zo-rPI">
+            <objects>
+                <viewController title="Interface" id="JIe-wJ-Yxe" customClass="InterfacePrefsVC" customModule="ACVM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="VXd-Vd-MDL">
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="108"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9h3-Bq-0sv">
+                                <rect key="frame" x="18" y="72" width="145" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Live VM Image Update:" id="BZr-gW-1x6">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d7c-rj-wvo">
+                                <rect key="frame" x="40" y="38" width="421" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="60" doubleValue="10" tickMarkPosition="above" numberOfTickMarks="61" allowsTickMarkValuesOnly="YES" sliderType="linear" id="ccB-An-mkN"/>
+                                <connections>
+                                    <action selector="cpuUpdateFreqAction:" target="JIe-wJ-Yxe" id="MyD-5o-EGk"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kMq-jv-szp">
+                                <rect key="frame" x="167" y="72" width="69" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="10" id="wjP-2h-gVP">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="heP-jx-dbf">
+                                <rect key="frame" x="18" y="6" width="49" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="Xp2-MS-PNQ">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <string key="title">0
+seconds</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hZo-ZV-aNj">
+                                <rect key="frame" x="433" y="6" width="49" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="HkW-0H-rkO">
+                                    <font key="font" metaFont="system" size="10"/>
+                                    <string key="title">60
+seconds</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="liveUpdateSlider" destination="d7c-rj-wvo" id="eyd-3p-qJg"/>
+                        <outlet property="liveUpdateValueTextField" destination="kMq-jv-szp" id="mrQ-PY-h4D"/>
+                    </connections>
+                </viewController>
+                <customObject id="Boj-TG-eeS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2180" y="995"/>
+        </scene>
         <!--Update-->
         <scene sceneID="zr5-33-ycB">
             <objects>
                 <viewController title="Update" id="ZII-3E-xMZ" sceneMemberID="viewController">
                     <view key="view" id="pz9-Wl-czy">
-                        <rect key="frame" x="0.0" y="0.0" width="500" height="140"/>
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="95"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ivi-aV-kUe">
-                                <rect key="frame" x="91" y="104.5" width="204" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <rect key="frame" x="92" y="58" width="204" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <buttonCell key="cell" type="check" title="Automatically check for updates" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="pYJ-ch-gAE">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="label" size="12"/>
@@ -1385,17 +1479,17 @@ This process can take a minute or more to complete.</string>
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CDJ-02-cbM">
-                                <rect key="frame" x="235" y="62" width="175" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="Hourly" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="3600" imageScaling="proportionallyDown" inset="2" selectedItem="YhL-8m-13C" id="aHr-qN-4hm">
+                                <rect key="frame" x="236" y="16" width="175" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <popUpButtonCell key="cell" type="push" title="Hourly" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="3600" imageScaling="proportionallyDown" inset="2" selectedItem="YhL-8m-13C" id="aHr-qN-4hm">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="DKP-qi-YjT">
                                         <items>
-                                            <menuItem title="Hourly" state="on" tag="3600" id="YhL-8m-13C">
+                                            <menuItem title="Hourly" tag="3600" id="YhL-8m-13C">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
-                                            <menuItem title="Daily" tag="86400" id="j3R-kY-UIo">
+                                            <menuItem title="Daily" state="on" tag="86400" id="j3R-kY-UIo">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
                                             <menuItem title="Weekly" tag="604800" id="dd5-RD-wtb">
@@ -1413,8 +1507,8 @@ This process can take a minute or more to complete.</string>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nd8-tc-KUZ">
-                                <rect key="frame" x="91" y="69" width="125" height="17"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                                <rect key="frame" x="92" y="23" width="125" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Check For Updates:" id="ZEt-ge-tI6">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1427,7 +1521,7 @@ This process can take a minute or more to complete.</string>
                 <customObject id="IX4-17-Zuw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="G1W-yt-xbZ" customClass="SUUpdater"/>
             </objects>
-            <point key="canvasLocation" x="-1642" y="739"/>
+            <point key="canvasLocation" x="-1610" y="988.5"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -1437,6 +1531,7 @@ This process can take a minute or more to complete.</string>
     <resources>
         <image name="NSAddTemplate" width="14" height="13"/>
         <image name="NSAdvanced" width="32" height="32"/>
+        <image name="NSMobileMe" width="32" height="32"/>
         <image name="NSSlideshowTemplate" width="18" height="14"/>
         <image name="NSStopProgressFreestandingTemplate" width="15" height="15"/>
         <image name="NSTouchBarPauseTemplate" width="11" height="13"/>
