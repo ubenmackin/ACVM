@@ -17,6 +17,7 @@ class MainVC: NSViewController {
     
     @IBOutlet weak var vmConfigTableView: NSTableView!
     
+    var prefs = Preferences()
     let delegate = NSApplication.shared.delegate as! AppDelegate
     private var firstOpen:Bool = true
     
@@ -62,7 +63,7 @@ class MainVC: NSViewController {
         reloadFileList()
         
         DispatchQueue.global(qos: .background).async {
-            Timer.scheduledTimer(withTimeInterval: 9, repeats: true) { _ in
+            Timer.scheduledTimer(withTimeInterval: self.prefs.vmLiveImageUpdateFreq, repeats: true) { _ in
                     self.grabVMScreenImage()
                 }
                 RunLoop.current.run()
@@ -72,10 +73,11 @@ class MainVC: NSViewController {
     func grabVMScreenImage() {
         for vm in delegate.vmList! {
             if vm.client != nil {
-                vm.client?.send(message: "{ \"execute\": \"screendump\", \"arguments\": { \"filename\": \"/tmp/here.ppm\" } }\r\n")
+                let fileName = URL(fileURLWithPath: vm.config.mainImage).lastPathComponent.replacingOccurrences(of: " ", with: "_")
+                vm.client?.send(message: "{ \"execute\": \"screendump\", \"arguments\": { \"filename\": \"/tmp/\(fileName)_screen.ppm\" } }\r\n")
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    vm.liveImage = NSImage(byReferencingFile: "/tmp/here.ppm")
+                    vm.liveImage = NSImage(byReferencingFile: "/tmp/\(fileName)_screen.ppm")
                 }
             }
         }
