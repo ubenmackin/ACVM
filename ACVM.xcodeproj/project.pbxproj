@@ -30,6 +30,10 @@
 		FB34EA692581D8CB0029341F /* DiskCreationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB34EA682581D8CB0029341F /* DiskCreationVC.swift */; };
 		FB57FBEB258198710036073E /* VirtualMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57FBEA258198710036073E /* VirtualMachine.swift */; };
 		FB8815F6257F2F63003147DB /* MainWC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8815F5257F2F63003147DB /* MainWC.swift */; };
+		FB8DCEDC258989BE007F6C15 /* PrefsTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8DCEDB258989BE007F6C15 /* PrefsTabViewController.swift */; };
+		FB8DCEDE25898BD4007F6C15 /* PrefsWC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8DCEDD25898BD4007F6C15 /* PrefsWC.swift */; };
+		FB8DCEE025898BE8007F6C15 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8DCEDF25898BE8007F6C15 /* Preferences.swift */; };
+		FB8DCEE325898D00007F6C15 /* InterfacePrefsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8DCEE225898D00007F6C15 /* InterfacePrefsVC.swift */; };
 		FBA80F2A25804268005580AE /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA80F2925804268005580AE /* MainVC.swift */; };
 		FBF26469258493A50010129F /* TCPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF26468258493A50010129F /* TCPClient.swift */; };
 /* End PBXBuildFile section */
@@ -86,6 +90,10 @@
 		FB678E342581DFC100573606 /* qemu-img */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "qemu-img"; sourceTree = "<group>"; };
 		FB7466642585E64B0074730A /* appcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
 		FB8815F5257F2F63003147DB /* MainWC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWC.swift; sourceTree = "<group>"; };
+		FB8DCEDB258989BE007F6C15 /* PrefsTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsTabViewController.swift; sourceTree = "<group>"; };
+		FB8DCEDD25898BD4007F6C15 /* PrefsWC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsWC.swift; sourceTree = "<group>"; };
+		FB8DCEDF25898BE8007F6C15 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		FB8DCEE225898D00007F6C15 /* InterfacePrefsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfacePrefsVC.swift; sourceTree = "<group>"; };
 		FBA80F2925804268005580AE /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		FBF26468258493A50010129F /* TCPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				FB7466642585E64B0074730A /* appcast.xml */,
-				FBF26468258493A50010129F /* TCPClient.swift */,
 				CC032B862574EAC7002CE035 /* Dylibs */,
 				CC032B602574D9A6002CE035 /* ACVM */,
 				CC032B5F2574D9A6002CE035 /* Products */,
@@ -143,13 +150,17 @@
 		CC032B602574D9A6002CE035 /* ACVM */ = {
 			isa = PBXGroup;
 			children = (
+				FB8DCEE6258991EA007F6C15 /* Model */,
 				CC032B612574D9A6002CE035 /* AppDelegate.swift */,
+				CC032B832574E137002CE035 /* FileDropView.swift */,
 				CC032B632574D9A6002CE035 /* VMConfigVC.swift */,
 				FBA80F2925804268005580AE /* MainVC.swift */,
 				FB8815F5257F2F63003147DB /* MainWC.swift */,
 				FB34EA682581D8CB0029341F /* DiskCreationVC.swift */,
 				FB28F3E825883D9E007106C8 /* DiskConvertVC.swift */,
-				CC032B832574E137002CE035 /* FileDropView.swift */,
+				FB8DCEDB258989BE007F6C15 /* PrefsTabViewController.swift */,
+				FB8DCEDD25898BD4007F6C15 /* PrefsWC.swift */,
+				FB8DCEE225898D00007F6C15 /* InterfacePrefsVC.swift */,
 				CC032B652574D9A7002CE035 /* Assets.xcassets */,
 				CC032B672574D9A7002CE035 /* Main.storyboard */,
 				CC032B6A2574D9A7002CE035 /* Info.plist */,
@@ -158,7 +169,6 @@
 				CC032B7C2574DDD6002CE035 /* pc-bios */,
 				FB159BFA2581DF3E00BA28F2 /* qemu-system-aarch64 */,
 				FB678E342581DFC100573606 /* qemu-img */,
-				FB57FBEA258198710036073E /* VirtualMachine.swift */,
 			);
 			path = ACVM;
 			sourceTree = "<group>";
@@ -185,6 +195,16 @@
 				CC032B8E2574EAD5002CE035 /* libusb-1.0.0.dylib */,
 			);
 			path = Dylibs;
+			sourceTree = "<group>";
+		};
+		FB8DCEE6258991EA007F6C15 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FB8DCEDF25898BE8007F6C15 /* Preferences.swift */,
+				FBF26468258493A50010129F /* TCPClient.swift */,
+				FB57FBEA258198710036073E /* VirtualMachine.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,8 +326,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC032B642574D9A6002CE035 /* VMConfigVC.swift in Sources */,
+				FB8DCEDE25898BD4007F6C15 /* PrefsWC.swift in Sources */,
+				FB8DCEE025898BE8007F6C15 /* Preferences.swift in Sources */,
 				FB57FBEB258198710036073E /* VirtualMachine.swift in Sources */,
 				FBA80F2A25804268005580AE /* MainVC.swift in Sources */,
+				FB8DCEE325898D00007F6C15 /* InterfacePrefsVC.swift in Sources */,
+				FB8DCEDC258989BE007F6C15 /* PrefsTabViewController.swift in Sources */,
 				FB34EA692581D8CB0029341F /* DiskCreationVC.swift in Sources */,
 				FB8815F6257F2F63003147DB /* MainWC.swift in Sources */,
 				FBF26469258493A50010129F /* TCPClient.swift in Sources */,
