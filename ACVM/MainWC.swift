@@ -201,10 +201,11 @@ class MainWC: NSWindowController {
         }
         
         if virtMachine.client != nil {
-            virtMachine.client?.send(message: "{ \"execute\": \"screendump\", \"arguments\": { \"filename\": \"/tmp/here.ppm\" } }\r\n")
+            let fileName = URL(fileURLWithPath: virtMachine.config.mainImage).lastPathComponent.replacingOccurrences(of: " ", with: "_")
+            virtMachine.client?.send(message: "{ \"execute\": \"screendump\", \"arguments\": { \"filename\": \"/tmp/\(fileName)_screen.ppm\" } }\r\n")
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                self.virtMachine.liveImage = NSImage(byReferencingFile: "/tmp/here.ppm")
+                self.virtMachine.liveImage = NSImage(byReferencingFile: "/tmp/\(fileName)_screen.ppm")
             }
         }
         
