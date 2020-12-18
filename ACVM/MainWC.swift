@@ -272,6 +272,14 @@ class MainWC: NSWindowController {
             nicOptions += ",\(virtMachine.config.nicOptions)"
         }
         
+        if virtMachine.config.sshPortForward {
+            nicOptions += ",hostfwd=tcp::10022-:22"
+        }
+        
+        if virtMachine.config.rdpPortForward {
+            nicOptions += ",hostfwd=tcp::13389-:3389"
+        }
+        
         var arguments: [String] = [
             "-M", "virt,highmem=no",
             "-accel", "hvf",
@@ -281,7 +289,7 @@ class MainWC: NSWindowController {
             "-m", String(virtMachine.config.ram) + "M",
             "-bios", efiURL.path,
             "-device", virtMachine.config.graphicOptions,
-            "-device", "qemu-xhci,p2=8,p3=8",
+            "-device", "qemu-xhci,id=xhci", //,p2=8,p3=8",
             "-device", "usb-kbd",
             "-device", "usb-tablet",
             "-nic", "user,model=virtio" + nicOptions,
@@ -332,7 +340,7 @@ class MainWC: NSWindowController {
             arguments += [
                 //"-usb", "-device", "nec-usb-xhci",
                 //"-device", "usb-host,hostbus=0,hostaddr=0",
-                //"-device", "usb-host,hostbus=0,hostaddr=1"
+                //"-device", "usb-host,hostbus=1,hostaddr=1"
                 // hostaddr=1 doesn't show anything in linux
                 // hostaddr=0 shows a record in lsusb
                 "-device", "usb-host,vendorid=0x0781,productid=0x5581"
@@ -360,12 +368,12 @@ class MainWC: NSWindowController {
             }
             
             let client = TCPClient()
-            client.delegate = self
+            //client.delegate = self
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 if process.isRunning {
                     client.setupNetworkCommunication(UInt32(port))
-                    client.initQMPConnection()
+                    client.initQMPConnection(vmName: self.virtMachine.config.vmname)
                     self.virtMachine.client = client
                 }
             }
@@ -381,8 +389,71 @@ class MainWC: NSWindowController {
     }
 }
 
-extension MainWC: TCPClientDelegate {
+/*extension MainWC: TCPClientDelegate {
   func received(message: Message) {
-//    print(message.message)
+    var data = Data(message.message.utf8)
+    
+    print("VM: " + message.senderVM)
+    print("Message: " + message.message)
+    
+    let newmessage = message.message.replacingOccurrences(of: "{\r\n    \"return\": {\r\n    }\r\n}\r\n", with: "")
+    if newmessage.count > 0 {
+        data = Data(newmessage.utf8)
+    }
+    
+    do {
+        let results: qmpReturn = try JSONDecoder().decode(qmpReturn.self, from: data)
+
+        if let timestamp = results.timestamp?.seconds {
+            print(timestamp)
+        }
+        
+        if let event = results.event {
+            print(event)
+        }
+        
+        if let guest = results.data?.guest {
+            print(guest)
+        }
+        
+        if let reason = results.data?.reason {
+            print(reason)
+        }
+    }
+    catch {
+        print(error)
+    }
   }
 }
+
+struct qmpReturn: Decodable {
+    let timestamp: qmpTimestamp?
+    let event: String?
+    let data: qmpData?
+
+    private enum CodingKeys: String, CodingKey {
+        case timestamp = "timestamp"
+        case event = "event"
+        case data = "data"
+    }
+}
+
+struct qmpTimestamp: Decodable {
+    let seconds: Int?
+    let microseconds: Int?
+
+    private enum CodingKeys: String, CodingKey {
+        case seconds = "seconds"
+        case microseconds = "microseconds"
+    }
+}
+
+struct qmpData: Decodable {
+    let guest: Bool?
+    let reason: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case guest = "guest"
+        case reason = "reason"
+    }
+}*/

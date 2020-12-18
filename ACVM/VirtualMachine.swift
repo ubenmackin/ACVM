@@ -21,6 +21,8 @@ struct VmConfiguration: Codable {
     var mainImageUseVirtIO:Bool = false
     var mainImageUseWTCache:Bool = true
     var mountCDImage:Bool = false
+    var sshPortForward:Bool = false
+    var rdpPortForward:Bool = false
     
     enum CodingKeys: String, CodingKey {
         case vmname = "vmname"
@@ -35,6 +37,8 @@ struct VmConfiguration: Codable {
         case mainImageUseVirtIO = "mainImageUseVirtIO"
         case mainImageUseWTCache = "mainImageUseWTCache"
         case mountCDImage = "mountCDImage"
+        case sshPortForward = "sshPortForward"
+        case rdpPortForward = "rdpPortForward"
     }
     
     init() {
@@ -55,6 +59,8 @@ struct VmConfiguration: Codable {
         mainImageUseVirtIO = try values.decodeIfPresent(Bool.self, forKey: .mainImageUseVirtIO) ?? false
         mainImageUseWTCache = try values.decodeIfPresent(Bool.self, forKey: .mainImageUseWTCache) ?? true
         mountCDImage = try values.decodeIfPresent(Bool.self, forKey: .mountCDImage) ?? false
+        sshPortForward = try values.decodeIfPresent(Bool.self, forKey: .sshPortForward) ?? false
+        rdpPortForward = try values.decodeIfPresent(Bool.self, forKey: .rdpPortForward) ?? false
     }
 }
 

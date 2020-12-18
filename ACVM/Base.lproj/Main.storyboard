@@ -824,44 +824,6 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="456" height="438"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7S4-Hd-o6S">
-                                <rect key="frame" x="40" y="60" width="376" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="rgW-Td-uUY">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6s4-k5-vIU">
-                                <rect key="frame" x="18" y="89" width="75" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="VM Name" placeholderString="4" id="6ft-2a-LSb">
-                                    <font key="font" metaFont="system" size="16"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7dO-Vc-vt4">
-                                <rect key="frame" x="13" y="13" width="119" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <buttonCell key="cell" type="push" title="Reset NVRAM" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="E9h-8r-8cm">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="didTapResetNVRAMButton:" target="XfG-lQ-9wD" id="Qfz-hS-OWu"/>
-                                </connections>
-                            </button>
-                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Oq-3u-tCY">
-                                <rect key="frame" x="128" y="90" width="290" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="That name is already in use, please try another." placeholderString="4" id="quj-gg-KtS">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <tabView fixedFrame="YES" type="noTabsBezelBorder" initialItem="vsu-ZE-WO5" translatesAutoresizingMaskIntoConstraints="NO" id="IAI-X5-IhU">
                                 <rect key="frame" x="16" y="118" width="424" height="243"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
@@ -1056,7 +1018,7 @@ virtio-gpu is recommended for Linux guests.</string>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="omz-ec-GCa">
-                                                    <rect key="frame" x="35" y="177" width="78" height="16"/>
+                                                    <rect key="frame" x="12" y="192" width="78" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="NIC Options" placeholderString="4" id="tk8-fx-3fV">
                                                         <font key="font" metaFont="system"/>
@@ -1064,17 +1026,8 @@ virtio-gpu is recommended for Linux guests.</string>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6yG-rE-jiY">
-                                                    <rect key="frame" x="15" y="201" width="65" height="19"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Network" id="FQg-xx-I9I">
-                                                        <font key="font" metaFont="system" size="16"/>
-                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                </textField>
                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VlB-ep-dlQ">
-                                                    <rect key="frame" x="37" y="148" width="356" height="21"/>
+                                                    <rect key="frame" x="14" y="163" width="376" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="ofm-N1-GX6">
                                                         <font key="font" metaFont="system"/>
@@ -1082,6 +1035,42 @@ virtio-gpu is recommended for Linux guests.</string>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9MO-HL-4fI">
+                                                    <rect key="frame" x="24" y="11" width="368" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" title="Note: This autoforwards port 13389 to 3389 in the guest." id="UPL-WH-GSf">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6BN-82-kvN">
+                                                    <rect key="frame" x="12" y="34" width="194" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Enable RDP port forwarding" bezelStyle="regularSquare" imagePosition="left" inset="2" id="q8q-hC-egh">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eUe-If-q40">
+                                                    <rect key="frame" x="24" y="70" width="368" height="48"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" id="84r-3T-Iyn">
+                                                        <font key="font" metaFont="system"/>
+                                                        <string key="title">Note: This autoforwards port 10022 to 22 in the guest. This means you can use the below to connect via:
+ssh localhost -p 10022</string>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eW2-TZ-wKY">
+                                                    <rect key="frame" x="12" y="125" width="194" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Enable SSH port forwarding" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0ws-Al-PgC">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -1093,6 +1082,44 @@ virtio-gpu is recommended for Linux guests.</string>
                                     </tabViewItem>
                                 </tabViewItems>
                             </tabView>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7S4-Hd-o6S">
+                                <rect key="frame" x="40" y="60" width="376" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="rgW-Td-uUY">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6s4-k5-vIU">
+                                <rect key="frame" x="18" y="89" width="75" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="VM Name" placeholderString="4" id="6ft-2a-LSb">
+                                    <font key="font" metaFont="system" size="16"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7dO-Vc-vt4">
+                                <rect key="frame" x="13" y="13" width="119" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <buttonCell key="cell" type="push" title="Reset NVRAM" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="E9h-8r-8cm">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="didTapResetNVRAMButton:" target="XfG-lQ-9wD" id="Qfz-hS-OWu"/>
+                                </connections>
+                            </button>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Oq-3u-tCY">
+                                <rect key="frame" x="128" y="90" width="290" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="That name is already in use, please try another." placeholderString="4" id="quj-gg-KtS">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Jw-H1-e2k">
                                 <rect key="frame" x="367" y="13" width="76" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1228,6 +1255,8 @@ DQ
                         <outlet property="resetNVRAMButton" destination="7dO-Vc-vt4" id="Dfg-R5-o0H"/>
                         <outlet property="tabView" destination="IAI-X5-IhU" id="GcS-S8-Ks8"/>
                         <outlet property="unhideMousePointer" destination="SW6-Fx-2XD" id="4ew-EO-eew"/>
+                        <outlet property="useRDPPortForward" destination="6BN-82-kvN" id="m5b-0g-fOP"/>
+                        <outlet property="useSSHPortForward" destination="eW2-TZ-wKY" id="HDM-fB-DX5"/>
                         <outlet property="useVirtIOForDisk" destination="CuT-bh-zqL" id="dgp-Tm-Xnd"/>
                         <outlet property="vmNameAlertTextField" destination="3Oq-3u-tCY" id="J9g-AJ-Kxf"/>
                         <outlet property="vmNameTextField" destination="7S4-Hd-o6S" id="SKu-c9-eEk"/>
@@ -1481,15 +1510,15 @@ seconds</string>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CDJ-02-cbM">
                                 <rect key="frame" x="236" y="16" width="175" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="Hourly" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="3600" imageScaling="proportionallyDown" inset="2" selectedItem="YhL-8m-13C" id="aHr-qN-4hm">
+                                <popUpButtonCell key="cell" type="push" title="Hourly" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="3600" imageScaling="proportionallyDown" inset="2" selectedItem="YhL-8m-13C" id="aHr-qN-4hm">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="DKP-qi-YjT">
                                         <items>
-                                            <menuItem title="Hourly" tag="3600" id="YhL-8m-13C">
+                                            <menuItem title="Hourly" state="on" tag="3600" id="YhL-8m-13C">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
-                                            <menuItem title="Daily" state="on" tag="86400" id="j3R-kY-UIo">
+                                            <menuItem title="Daily" tag="86400" id="j3R-kY-UIo">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
                                             <menuItem title="Weekly" tag="604800" id="dd5-RD-wtb">
@@ -1526,7 +1555,7 @@ seconds</string>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4GJ-XX-DCp"/>
-        <segue reference="eyu-U4-Hb7"/>
+        <segue reference="oEB-Gt-Nuw"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NSAddTemplate" width="14" height="13"/>

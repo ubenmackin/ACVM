@@ -237,7 +237,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1220;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1230;
 				TargetAttributes = {
 					CC032B5D2574D9A6002CE035 = {
 						CreatedOnToolsVersion = 12.2;
@@ -476,7 +476,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 02A7AB5C4544449BE84EB25A /* Pods-ACVM.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ACVM/ACVM.entitlements;
@@ -511,7 +510,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C4F993756CA48707ED838C96 /* Pods-ACVM.release.xcconfig */;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ACVM/ACVM.entitlements;
