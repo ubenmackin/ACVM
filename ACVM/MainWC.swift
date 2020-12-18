@@ -13,6 +13,7 @@ class MainWC: NSWindowController {
 
     private var mainImageURL: URL?
     private var cdImageURL: URL?
+    private var cdImageURL2: URL?
     private var virtMachine: VirtualMachine = VirtualMachine()
     
     @IBOutlet weak var startButton: NSToolbarItem!
@@ -111,6 +112,7 @@ class MainWC: NSWindowController {
         }
 
         virtMachine.config.mountCDImage = false
+        virtMachine.config.mountCDImage2 = false
         let appSupportURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let directoryURL = appSupportURL.appendingPathComponent("com.oltica.ACVM")
           
@@ -244,6 +246,17 @@ class MainWC: NSWindowController {
             cdImageURL = nil
         }
         
+        if virtMachine.config.mountCDImage2 {
+            let cdImageFilePath2 = virtMachine.config.cdImage2
+            if FileManager.default.fileExists(atPath: cdImageFilePath2) {
+                let contentURL = URL(fileURLWithPath: cdImageFilePath2)
+                cdImageURL2 = contentURL
+            }
+        }
+        else {
+            cdImageURL2 = nil
+        }
+        
         guard let efiURL = Bundle.main.url(forResource: "QEMU_EFI", withExtension: "fd"),
               let mainImage = mainImageURL else {
             return
@@ -292,6 +305,7 @@ class MainWC: NSWindowController {
             "-device", "qemu-xhci,id=xhci", //,p2=8,p3=8",
             "-device", "usb-kbd",
             "-device", "usb-tablet",
+            "-device", "virtio-rng-pci",
             "-nic", "user,model=virtio" + nicOptions,
             "-rtc", "base=localtime,clock=host",
             "-drive", "file=\(virtMachine.config.nvram),format=raw,if=pflash,index=1",
@@ -322,6 +336,13 @@ class MainWC: NSWindowController {
             arguments += [
                 "-drive", "file=\(cdImageURL.path),media=cdrom,if=none,id=cdimage",
                 "-device", "usb-storage,drive=cdimage"
+            ]
+        }
+        
+        if let cdImageURL2 = cdImageURL2 {
+            arguments += [
+                "-drive", "file=\(cdImageURL2.path),media=cdrom,if=none,id=cdimage2",
+                "-device", "usb-storage,drive=cdimage2"
             ]
         }
         
