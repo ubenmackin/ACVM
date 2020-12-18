@@ -17,6 +17,8 @@ class TCPClient: NSObject {
 
     weak var delegate: TCPClientDelegate?
     
+    var vmName:String?
+    
     func setupNetworkCommunication(_ port: UInt32) {
         var readStream: Unmanaged<CFReadStream>?
         var writeStream: Unmanaged<CFWriteStream>?
@@ -39,8 +41,9 @@ class TCPClient: NSObject {
         outputStream.open()
     }
 
-    func initQMPConnection() {
+    func initQMPConnection(vmName: String) {
         let data = "{ \"execute\": \"qmp_capabilities\" }\r\n".data(using: .utf8)!
+        self.vmName = vmName
         
         data.withUnsafeBytes {
             guard let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
@@ -76,7 +79,7 @@ extension TCPClient: StreamDelegate {
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
         switch eventCode {
         case .hasBytesAvailable:
-            print("new message received")
+            //print("new message received")
             readAvailableBytes(stream: aStream as! InputStream)
         case .endEncountered:
             print("end of connection")
@@ -112,20 +115,31 @@ extension TCPClient: StreamDelegate {
                 bytesNoCopy: buffer,
                 length: length,
                 encoding: .utf8,
-                freeWhenDone: true)?.components(separatedBy: "~9999~"),
+                freeWhenDone: false)?.components(separatedBy: "~"), // when this was true caused a crash
+            let name = self.vmName, //stringArray.first,
             let message = stringArray.last
         else {
             return nil
         }
         
-        return Message(message: message)
+        return Message(message: message, senderVM: name)
     }
 }
 
-struct Message {
+/*struct Message {
     let message: String
     
     init(message: String) {
         self.message = message
+    }
+}*/
+
+struct Message {
+    let message: String
+    let senderVM: String
+
+    init(message: String, senderVM: String) {
+      self.message = message
+      self.senderVM = senderVM
     }
 }
