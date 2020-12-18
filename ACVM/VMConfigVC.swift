@@ -39,6 +39,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     
     // Network Pane
     @IBOutlet weak var nicOptionsTextField: NSTextField!
+    @IBOutlet weak var useSSHPortForward: NSButton!
+    @IBOutlet weak var useRDPPortForward: NSButton!
     
     var virtMachine:VirtualMachine = VirtualMachine()
     
@@ -72,9 +74,9 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         networkTabButton.isBordered = true
         
         tabView.selectTabViewItem(at: 2)
-        self.preferredContentSize = NSSize(width: 456, height: 300)
+        self.preferredContentSize = NSSize(width: 456, height: 438)
         
-        //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 300), display: true, animate: true)
+        //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 438), display: true, animate: true)
     }
     
     // MARK: Remainder of Class
@@ -160,6 +162,22 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             mountCDImage.state = .off
         }
         
+        if virtMachine.config.sshPortForward {
+            useSSHPortForward.state = .on
+        }
+        else
+        {
+            useSSHPortForward.state = .off
+        }
+        
+        if virtMachine.config.rdpPortForward {
+            useRDPPortForward.state = .on
+        }
+        else
+        {
+            useRDPPortForward.state = .off
+        }
+        
         graphicPopupButton.selectItem(withTitle: virtMachine.config.graphicOptions)
         nicOptionsTextField.stringValue = virtMachine.config.nicOptions
     }
@@ -228,6 +246,22 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                 else
                 {
                     virtMachine.config.mountCDImage = true
+                }
+                
+                if useSSHPortForward.state == .off {
+                    virtMachine.config.sshPortForward = false
+                }
+                else
+                {
+                    virtMachine.config.sshPortForward = true
+                }
+                
+                if useRDPPortForward.state == .off {
+                    virtMachine.config.rdpPortForward = false
+                }
+                else
+                {
+                    virtMachine.config.rdpPortForward = true
                 }
                 
                 virtMachine.config.graphicOptions = displayAdaptor

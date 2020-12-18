@@ -55,8 +55,7 @@
             </ul>
             <h2>Bug Fixes</h2>
             <ul>
-                <li>If ACVM is closed, but there are still VMs running, terminate those
-                <li>This will be a hard power off, akin to pulling the plug out of a live machine
+                <li>If ACVM is closed, but there are still VMs running, terminate those. This will be a hard power off, akin to pulling the plug out of a live machine</li>
                     <ul>
                         <li>Fixed the formatting of the display of the VM Names</li>
                     </ul>
@@ -68,5 +67,29 @@
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure url="https://raw.githubusercontent.com/ubenmackin/ACVM/main/ACVM.zip" sparkle:version="13" sparkle:shortVersionString="1.3" length="25837495" type="application/octet-stream" sparkle:edSignature="7aGxorsPhrY5AskeKivDX8tcf2z2sZmYC7xuc2SkSG2eBFShnuqXES7UwyeyqHWp7H2PhSBfMyu0Tq6WYJVWBg=="/>
         </item>
+        <item>
+                    <title>1.4</title>
+                    <description><![CDATA[
+                    <h2>New Features</h2>
+                    <ul>
+                        <li>Added preferences.
+                            <ul>
+                                <li>Ability to set the update check frequency</li>
+                                <li>Ability to set how often the VM is pulled for a live image</li>
+                            </ul>
+                        </li>
+                        <li>Added Disk Conversion routine. This will convert any supported qemu disk image type (raw, vodka, vdi, vhdk, etc) into qcow2.</li>
+                        <li>Added buttons to automatically port forward RDP (on port 13389) and SSH (10022).</li>
+                    </ul>
+                    <h2>Bug Fixes</h2>
+                    <ul>
+                        <li>Added VM name to the temp file created to store the screencap from qemu before loading it into the NSImage</li>
+                    </ul>
+                    ]]>
+                    </description>
+                    <pubDate>Thu, 17 Dec 2020 17:42:01 -0800</pubDate>
+                    <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+                    <enclosure url="https://raw.githubusercontent.com/ubenmackin/ACVM/main/ACVM.zip" sparkle:version="14" sparkle:shortVersionString="1.4" length="25910853" type="application/octet-stream" sparkle:edSignature="nOLgSCvVNiAfpApp5tbPg71zAzWa8sX4sO30JmlRoq+FhtYj5YsUqjNk74ttRxhv6DFMmOJ3Zk5/+b206rc7AQ=="/>
+                </item>
 </channel>
 </rss>
