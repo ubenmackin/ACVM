@@ -907,16 +907,47 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JCI-ct-ro4">
-                                                    <rect key="frame" x="15" y="14" width="380" height="28"/>
+                                                    <rect key="frame" x="15" y="14" width="468" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" id="lfY-yz-abY">
                                                         <font key="font" metaFont="smallSystem"/>
-                                                        <string key="title">Note: virtio-gpu won't work with Windows guest.
+                                                        <string key="title">Note: virtio-gpu won't work with Windows guest, unless the virtio-gpu driver is installed.
 virtio-gpu is recommended for Linux guests.</string>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m5l-h8-YjP">
+                                                    <rect key="frame" x="149" y="204" width="79" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Architecture" placeholderString="4" id="jJ7-bu-AHb">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W1d-xy-qHf">
+                                                    <rect key="frame" x="149" y="179" width="66" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="radio" title="arm64" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="MYU-sv-baU">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="didTapArm64Button:" target="XfG-lQ-9wD" id="iFO-Pv-6In"/>
+                                                    </connections>
+                                                </button>
+                                                <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eLj-F9-BSM">
+                                                    <rect key="frame" x="149" y="157" width="66" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="radio" title="x64" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="zU7-3r-OpS">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="didTapX64Button:" target="XfG-lQ-9wD" id="1CG-9O-w9H"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -1285,6 +1316,7 @@ DQ
                     </view>
                     <connections>
                         <outlet property="actionButton" destination="5Jw-H1-e2k" id="AHa-VW-YYV"/>
+                        <outlet property="arm64RadioButton" destination="W1d-xy-qHf" id="ojv-jb-wOF"/>
                         <outlet property="cancelButton" destination="5Jw-H1-e2k" id="FOj-v4-XZc"/>
                         <outlet property="cdImage" destination="ca5-5W-Wat" id="kj1-ta-UlS"/>
                         <outlet property="cdImage2" destination="qlE-GU-FQE" id="6DI-3j-95y"/>
@@ -1309,6 +1341,7 @@ DQ
                         <outlet property="useVirtIOForDisk" destination="CuT-bh-zqL" id="dgp-Tm-Xnd"/>
                         <outlet property="vmNameAlertTextField" destination="3Oq-3u-tCY" id="J9g-AJ-Kxf"/>
                         <outlet property="vmNameTextField" destination="7S4-Hd-o6S" id="SKu-c9-eEk"/>
+                        <outlet property="x64RadioButton" destination="eLj-F9-BSM" id="iE8-qL-Nok"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1604,7 +1637,7 @@ seconds</string>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4GJ-XX-DCp"/>
-        <segue reference="oEB-Gt-Nuw"/>
+        <segue reference="eyu-U4-Hb7"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NSAddTemplate" width="14" height="13"/>
