@@ -8,7 +8,7 @@ You can download the Windows 10 on ARM from [here](https://www.microsoft.com/en-
 
 ## How to get internet access in the Windows VM
 
-1. Download the virtio driver ISO from https://fedorapeople.org/groups/vir...o/virtio-win-0.1.190-1/virtio-win-0.1.190.iso
+1. Download the virtio driver ISO from https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.190-1/virtio-win-0.1.190.iso
 2. Edit the VM configuration, and load the iso as a "CD Image"
 3. In Windows 10, right click on the Start menu, then choose “Command Prompt (Admin)”.
 4. Click “Yes” in the UAC prompt.
