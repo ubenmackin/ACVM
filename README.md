@@ -2,7 +2,7 @@
 
 A simple launcher for running ARM64 VM using QEMU on Apple silicon.
 
-The launcher embedded a pre-built binary of QEMU based on [the patches](https://patchwork.kernel.org/project/qemu-devel/list/?series=392975) from [Alexander Graf](https://twitter.com/_AlexGraf).
+The launcher embedded a pre-built binary of QEMU based on [the latest patches](https://patchwork.kernel.org/project/qemu-devel/list/?submitter=185121) from [Alexander Graf](https://twitter.com/_AlexGraf).
 
 You can download the Windows 10 on ARM from [here](https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewARM64), and drag the VHDX file to the main image area to boot it.
 
