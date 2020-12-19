@@ -99,5 +99,19 @@
     <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
     <enclosure url="https://github.com/ubenmackin/ACVM/releases/download/v1.4/ACVM.zip" sparkle:version="14" sparkle:shortVersionString="1.4" length="25910853" type="application/octet-stream" sparkle:edSignature="nOLgSCvVNiAfpApp5tbPg71zAzWa8sX4sO30JmlRoq+FhtYj5YsUqjNk74ttRxhv6DFMmOJ3Zk5/+b206rc7AQ=="/>
 </item>
+<item>
+    <title>1.5</title>
+    <description><![CDATA[
+    <h2>New Features</h2>
+        <ul>
+            <li>added ability to add a second CD image</li>
+            <li>added a device, virtio-rng-pci</li>
+        </ul>
+    ]]>
+    </description>
+    <pubDate>Fri, 18 Dec 2020 17:57:36 -0800</pubDate>
+    <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+    <enclosure url="https://github.com/ubenmackin/ACVM/releases/download/v1.5/ACVM.zip" sparkle:version="15" sparkle:shortVersionString="1.5" length="25919067" type="application/octet-stream" sparkle:edSignature="5p4QUb0AzceRu4nhbwhFGZY9IrNiHO4tDuAlg9s+6NjhO3f98VP6UcQRw8peMvyxSsPQlSiOtdx0z7hQBOCsCg=="/>
+</item>
 </channel>
 </rss>
