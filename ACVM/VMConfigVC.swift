@@ -27,6 +27,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     @IBOutlet weak var ramTextField: NSTextField!
     @IBOutlet weak var graphicPopupButton: NSPopUpButton!
     @IBOutlet weak var unhideMousePointer: NSButton!
+    @IBOutlet weak var arm64RadioButton: NSButton!
+    @IBOutlet weak var x64RadioButton: NSButton!
     
     // Disk Pane
     @IBOutlet weak var mainImage: FileDropView!
@@ -92,24 +94,6 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         
         if virtMachine.config.vmname != "" {
             loadConfigValues()
-            
-            if FileManager.default.fileExists(atPath: virtMachine.config.nvram) {
-                resetNVRAMButton.isEnabled = true
-            }
-            
-            vmNameTextField.isEditable = false
-            
-            if virtMachine.config.mainImage != "" {
-                mainImage.toolTip = URL(fileURLWithPath: virtMachine.config.mainImage).lastPathComponent
-            }
-            
-            if virtMachine.config.cdImage != "" {
-                cdImage.toolTip = URL(fileURLWithPath: virtMachine.config.cdImage).lastPathComponent
-            }
-            
-            if virtMachine.config.cdImage2 != "" {
-                cdImage2.toolTip = URL(fileURLWithPath: virtMachine.config.cdImage2).lastPathComponent
-            }
         }
         
         mainImage.delegate = self
@@ -121,7 +105,12 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     
     func loadConfigValues() {
         vmNameTextField.stringValue = virtMachine.config.vmname
-                
+        vmNameTextField.isEditable = false
+        
+        if FileManager.default.fileExists(atPath: virtMachine.config.nvram) {
+            resetNVRAMButton.isEnabled = true
+        }
+        
         cpuTextField.stringValue = String(virtMachine.config.cores)
         ramTextField.stringValue = String(virtMachine.config.ram)
                 
@@ -129,12 +118,14 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         if FileManager.default.fileExists(atPath: mainImageFilePath) {
             let contentURL = URL(fileURLWithPath: mainImageFilePath)
             mainImage.contentURL = contentURL
+            mainImage.toolTip = URL(fileURLWithPath: virtMachine.config.mainImage).lastPathComponent
         }
            
         let cdImageFilePath = virtMachine.config.cdImage
         if FileManager.default.fileExists(atPath: cdImageFilePath) {
             let contentURL = URL(fileURLWithPath: cdImageFilePath)
             cdImage.contentURL = contentURL
+            cdImage.toolTip = URL(fileURLWithPath: virtMachine.config.cdImage).lastPathComponent
             removeCDButton.isEnabled = true
             mountCDImage.isEnabled = true
         }
@@ -143,68 +134,63 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         if FileManager.default.fileExists(atPath: cdImage2FilePath) {
             let contentURL = URL(fileURLWithPath: cdImage2FilePath)
             cdImage2.contentURL = contentURL
+            cdImage2.toolTip = URL(fileURLWithPath: virtMachine.config.cdImage2).lastPathComponent
             removeCD2Button.isEnabled = true
             mountCDImage2.isEnabled = true
         }
         
         if virtMachine.config.unhideMousePointer {
             unhideMousePointer.state = .on
-        }
-        else
-        {
+        } else {
             unhideMousePointer.state = .off
         }
         
         if virtMachine.config.mainImageUseVirtIO {
             useVirtIOForDisk.state = .on
-        }
-        else
-        {
+        } else {
             useVirtIOForDisk.state = .off
         }
         
         if virtMachine.config.mainImageUseWTCache {
             enableWriteThroughCache.state = .on
-        }
-        else
-        {
+        } else {
             enableWriteThroughCache.state = .off
         }
         
         if virtMachine.config.mountCDImage {
             mountCDImage.state = .on
-        }
-        else
-        {
+        } else {
             mountCDImage.state = .off
         }
         
         if virtMachine.config.mountCDImage2 {
             mountCDImage2.state = .on
-        }
-        else
-        {
+        } else {
             mountCDImage2.state = .off
         }
         
         if virtMachine.config.sshPortForward {
             useSSHPortForward.state = .on
-        }
-        else
-        {
+        } else {
             useSSHPortForward.state = .off
         }
         
         if virtMachine.config.rdpPortForward {
             useRDPPortForward.state = .on
-        }
-        else
-        {
+        } else {
             useRDPPortForward.state = .off
         }
         
         graphicPopupButton.selectItem(withTitle: virtMachine.config.graphicOptions)
         nicOptionsTextField.stringValue = virtMachine.config.nicOptions
+        
+        if virtMachine.config.architecture == "aarch64" {
+            arm64RadioButton.state = .on
+            x64RadioButton.state = .off
+        } else if virtMachine.config.architecture == "x86_64" {
+            arm64RadioButton.state = .off
+            x64RadioButton.state = .on
+        }
     }
     
     @IBAction func onGraphicChange(_ sender: Any) {
@@ -244,62 +230,54 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                 
                 if unhideMousePointer.state == .off {
                     virtMachine.config.unhideMousePointer = false
-                }
-                else
-                {
+                } else {
                     virtMachine.config.unhideMousePointer = true
                 }
                 
                 if useVirtIOForDisk.state == .off {
                     virtMachine.config.mainImageUseVirtIO = false
-                }
-                else
-                {
+                } else {
                     virtMachine.config.mainImageUseVirtIO = true
                 }
                 
                 if enableWriteThroughCache.state == .off {
                     virtMachine.config.mainImageUseWTCache = false
-                }
-                else
-                {
+                } else {
                     virtMachine.config.mainImageUseWTCache = true
                 }
                 
                 if mountCDImage.state == .off {
                     virtMachine.config.mountCDImage = false
-                }
-                else
-                {
+                } else {
                     virtMachine.config.mountCDImage = true
                 }
                 
                 if mountCDImage2.state == .off {
                     virtMachine.config.mountCDImage2 = false
-                }
-                else
-                {
+                } else {
                     virtMachine.config.mountCDImage2 = true
                 }
                 
                 if useSSHPortForward.state == .off {
                     virtMachine.config.sshPortForward = false
-                }
-                else
-                {
+                } else {
                     virtMachine.config.sshPortForward = true
                 }
                 
                 if useRDPPortForward.state == .off {
                     virtMachine.config.rdpPortForward = false
-                }
-                else
-                {
+                } else {
                     virtMachine.config.rdpPortForward = true
                 }
                 
                 virtMachine.config.graphicOptions = displayAdaptor
                 virtMachine.config.nicOptions = nicOptions
+                
+                if arm64RadioButton.state == .on {
+                    virtMachine.config.architecture = "aarch64"
+                } else if x64RadioButton.state == .on {
+                    virtMachine.config.architecture =  "x86_64"
+                }
                 
                 if !FileManager.default.fileExists(atPath: virtMachine.config.nvram) {
                     let appSupportURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
@@ -335,9 +313,6 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                 
                 vmNameAlertTextField.isHidden = true
                 
-                //self.view.window?.close()
-                //let application = NSApplication.shared
-                //application.stopModal()
                 self.dismiss(self)
                 
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshVMList"), object: nil)
@@ -355,9 +330,6 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     
     
     @IBAction func didTapCancelButton(_ sender: NSButton) {
-        //self.view.window?.close()
-        //let application = NSApplication.shared
-        //application.stopModal()
         self.dismiss(self)
     }
     
@@ -376,17 +348,27 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         
         if sender == removeCDButton {
             cdImage.contentURL = nil
-            //virtMachine.config.cdImage = ""
             removeCDButton.isEnabled = false
             mountCDImage.state = .off
             mountCDImage.isEnabled = false
+            cdImage.toolTip = nil
         } else if sender == removeCD2Button {
             cdImage2.contentURL = nil
-            //virtMachine.config.cdImage2 = ""
             removeCD2Button.isEnabled = false
             mountCDImage2.state = .off
             mountCDImage2.isEnabled = false
+            cdImage2.toolTip = nil
         }
+    }
+    
+    @IBAction func didTapArm64Button(_ sender: Any) {
+        arm64RadioButton.state = .on
+        x64RadioButton.state = .off
+    }
+    
+    @IBAction func didTapX64Button(_ sender: Any) {
+        arm64RadioButton.state = .off
+        x64RadioButton.state = .on
     }
     
     

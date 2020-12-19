@@ -25,6 +25,7 @@ struct VmConfiguration: Codable {
     var mountCDImage2:Bool = false
     var sshPortForward:Bool = false
     var rdpPortForward:Bool = false
+    var architecture:String = "aarch64"
     
     enum CodingKeys: String, CodingKey {
         case vmname = "vmname"
@@ -43,6 +44,7 @@ struct VmConfiguration: Codable {
         case mountCDImage2 = "mountCDImage2"
         case sshPortForward = "sshPortForward"
         case rdpPortForward = "rdpPortForward"
+        case architecture = "architecture"
     }
     
     init() {
@@ -67,6 +69,7 @@ struct VmConfiguration: Codable {
         mountCDImage2 = try values.decodeIfPresent(Bool.self, forKey: .mountCDImage2) ?? false
         sshPortForward = try values.decodeIfPresent(Bool.self, forKey: .sshPortForward) ?? false
         rdpPortForward = try values.decodeIfPresent(Bool.self, forKey: .rdpPortForward) ?? false
+        architecture = try values.decodeIfPresent(String.self, forKey: .architecture) ?? "aarch64"
     }
 }
 
