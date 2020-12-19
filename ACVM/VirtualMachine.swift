@@ -14,6 +14,7 @@ struct VmConfiguration: Codable {
     var ram:Int = 4096
     var mainImage:String = ""
     var cdImage:String = ""
+    var cdImage2:String = ""
     var unhideMousePointer:Bool = false
     var graphicOptions:String = ""
     var nicOptions:String = ""
@@ -21,6 +22,7 @@ struct VmConfiguration: Codable {
     var mainImageUseVirtIO:Bool = false
     var mainImageUseWTCache:Bool = true
     var mountCDImage:Bool = false
+    var mountCDImage2:Bool = false
     var sshPortForward:Bool = false
     var rdpPortForward:Bool = false
     
@@ -30,6 +32,7 @@ struct VmConfiguration: Codable {
         case ram = "ram"
         case mainImage = "mainImage"
         case cdImage = "cdImage"
+        case cdImage2 = "cdImage2"
         case unhideMousePointer = "unhideMousePointer"
         case graphicOptions = "graphicOptions"
         case nicOptions = "nicOptions"
@@ -37,6 +40,7 @@ struct VmConfiguration: Codable {
         case mainImageUseVirtIO = "mainImageUseVirtIO"
         case mainImageUseWTCache = "mainImageUseWTCache"
         case mountCDImage = "mountCDImage"
+        case mountCDImage2 = "mountCDImage2"
         case sshPortForward = "sshPortForward"
         case rdpPortForward = "rdpPortForward"
     }
@@ -52,6 +56,7 @@ struct VmConfiguration: Codable {
         ram = try values.decodeIfPresent(Int.self, forKey: .ram) ?? 4096
         mainImage = try values.decodeIfPresent(String.self, forKey: .mainImage) ?? ""
         cdImage = try values.decodeIfPresent(String.self, forKey: .cdImage) ?? ""
+        cdImage2 = try values.decodeIfPresent(String.self, forKey: .cdImage2) ?? ""
         unhideMousePointer = try values.decodeIfPresent(Bool.self, forKey: .unhideMousePointer) ?? false
         graphicOptions = try values.decodeIfPresent(String.self, forKey: .graphicOptions) ?? ""
         nicOptions = try values.decodeIfPresent(String.self, forKey: .nicOptions) ?? ""
@@ -59,6 +64,7 @@ struct VmConfiguration: Codable {
         mainImageUseVirtIO = try values.decodeIfPresent(Bool.self, forKey: .mainImageUseVirtIO) ?? false
         mainImageUseWTCache = try values.decodeIfPresent(Bool.self, forKey: .mainImageUseWTCache) ?? true
         mountCDImage = try values.decodeIfPresent(Bool.self, forKey: .mountCDImage) ?? false
+        mountCDImage2 = try values.decodeIfPresent(Bool.self, forKey: .mountCDImage2) ?? false
         sshPortForward = try values.decodeIfPresent(Bool.self, forKey: .sshPortForward) ?? false
         rdpPortForward = try values.decodeIfPresent(Bool.self, forKey: .rdpPortForward) ?? false
     }

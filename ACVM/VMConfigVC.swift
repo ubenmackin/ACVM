@@ -34,8 +34,12 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     @IBOutlet weak var enableWriteThroughCache: NSButton!
     
     @IBOutlet weak var cdImage: FileDropView!
-    @IBOutlet weak var mountCDImage: NSButtonCell!
+    @IBOutlet weak var mountCDImage: NSButton!
     @IBOutlet weak var removeCDButton: NSButton!
+    
+    @IBOutlet weak var cdImage2: FileDropView!
+    @IBOutlet weak var mountCDImage2: NSButton!
+    @IBOutlet weak var removeCD2Button: NSButton!
     
     // Network Pane
     @IBOutlet weak var nicOptionsTextField: NSTextField!
@@ -52,7 +56,7 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         networkTabButton.isBordered = false
         
         tabView.selectTabViewItem(at: 0)
-        self.preferredContentSize = NSSize(width: 456, height: 438)
+        self.preferredContentSize = NSSize(width: 548, height: 438)
 
         //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 438), display: true, animate: true)
     }
@@ -63,7 +67,7 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         networkTabButton.isBordered = false
         
         tabView.selectTabViewItem(at: 1)
-        self.preferredContentSize = NSSize(width: 456, height: 438)
+        self.preferredContentSize = NSSize(width: 548, height: 438)
 
         //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 438), display: true, animate: true)
     }
@@ -74,7 +78,7 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         networkTabButton.isBordered = true
         
         tabView.selectTabViewItem(at: 2)
-        self.preferredContentSize = NSSize(width: 456, height: 438)
+        self.preferredContentSize = NSSize(width: 548, height: 438)
         
         //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 438), display: true, animate: true)
     }
@@ -102,12 +106,17 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             if virtMachine.config.cdImage != "" {
                 cdImage.toolTip = URL(fileURLWithPath: virtMachine.config.cdImage).lastPathComponent
             }
+            
+            if virtMachine.config.cdImage2 != "" {
+                cdImage2.toolTip = URL(fileURLWithPath: virtMachine.config.cdImage2).lastPathComponent
+            }
         }
         
         mainImage.delegate = self
         cdImage.delegate = self
+        cdImage2.delegate = self
         
-        self.preferredContentSize = NSSize(width: 456, height: 438)
+        self.preferredContentSize = NSSize(width: 548, height: 438)
     }
     
     func loadConfigValues() {
@@ -128,6 +137,14 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             cdImage.contentURL = contentURL
             removeCDButton.isEnabled = true
             mountCDImage.isEnabled = true
+        }
+        
+        let cdImage2FilePath = virtMachine.config.cdImage2
+        if FileManager.default.fileExists(atPath: cdImage2FilePath) {
+            let contentURL = URL(fileURLWithPath: cdImage2FilePath)
+            cdImage2.contentURL = contentURL
+            removeCD2Button.isEnabled = true
+            mountCDImage2.isEnabled = true
         }
         
         if virtMachine.config.unhideMousePointer {
@@ -160,6 +177,14 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         else
         {
             mountCDImage.state = .off
+        }
+        
+        if virtMachine.config.mountCDImage2 {
+            mountCDImage2.state = .on
+        }
+        else
+        {
+            mountCDImage2.state = .off
         }
         
         if virtMachine.config.sshPortForward {
@@ -215,6 +240,7 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                 virtMachine.config.ram = (Int(ramSize) ?? 4096)
                 virtMachine.config.mainImage = mainImage.contentURL?.path ?? ""
                 virtMachine.config.cdImage = cdImage.contentURL?.path ?? ""
+                virtMachine.config.cdImage2 = cdImage2.contentURL?.path ?? ""
                 
                 if unhideMousePointer.state == .off {
                     virtMachine.config.unhideMousePointer = false
@@ -246,6 +272,14 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                 else
                 {
                     virtMachine.config.mountCDImage = true
+                }
+                
+                if mountCDImage2.state == .off {
+                    virtMachine.config.mountCDImage2 = false
+                }
+                else
+                {
+                    virtMachine.config.mountCDImage2 = true
                 }
                 
                 if useSSHPortForward.state == .off {
@@ -338,12 +372,21 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         }
     }
     
-    @IBAction func didTapRemoveButton(_ sender: Any) {
-        cdImage.contentURL = nil
-        //virtMachine.config.cdImage = ""
-        removeCDButton.isEnabled = false
-        mountCDImage.state = .off
-        mountCDImage.isEnabled = false
+    @IBAction func didTapRemoveButton(_ sender: NSButton) {
+        
+        if sender == removeCDButton {
+            cdImage.contentURL = nil
+            //virtMachine.config.cdImage = ""
+            removeCDButton.isEnabled = false
+            mountCDImage.state = .off
+            mountCDImage.isEnabled = false
+        } else if sender == removeCD2Button {
+            cdImage2.contentURL = nil
+            //virtMachine.config.cdImage2 = ""
+            removeCD2Button.isEnabled = false
+            mountCDImage2.state = .off
+            mountCDImage2.isEnabled = false
+        }
     }
     
     
@@ -399,10 +442,19 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         switch view {
         case mainImage:
             mainImage.contentURL = contentURL
+            mainImage.toolTip = contentURL.lastPathComponent
         case cdImage:
             cdImage.contentURL = contentURL
+            cdImage.toolTip = contentURL.lastPathComponent
             removeCDButton.isEnabled = true
             mountCDImage.isEnabled = true
+            mountCDImage.state = .on
+        case cdImage2:
+            cdImage2.contentURL = contentURL
+            cdImage2.toolTip = contentURL.lastPathComponent
+            removeCD2Button.isEnabled = true
+            mountCDImage2.isEnabled = true
+            mountCDImage2.state = .on
         default:
             break
         }
