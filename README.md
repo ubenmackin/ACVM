@@ -20,3 +20,21 @@ You can download the Windows 10 on ARM from [here](https://www.microsoft.com/en-
 9. Right click on the last “Unknown device” > Update drivers > Browse my computer for drivers > Browse.
 10. Choose the virtual CD Drive (D:) virtio-win > OK > Next > Allow.
 11. You should now have internet in the Windows 10 virtual machine.
+
+## How to setup virtio-gpu in the Windows VM
+
+If you have already enabled test signing for the above ethernet driver, you can skip steps 1-4
+
+1. In Windows 10, right click on the Start menu, then choose “Command Prompt (Admin)”.
+2. Click “Yes” in the UAC prompt.
+3. Run the following in the CMD prompt to allow drivers that are test-signed:
+> bcdedit -set TESTSIGNING ON
+4. Restart Windows.
+
+5. After Windows boots, download the virtio driver from [here](https://github.com/ubenmackin/ACVM/releases/download/v1.5/viogpudo.zip).
+6. Unzip the folder.
+7. Run the InstallCerts and Driver.bat
+8. After this is done, shutdown Windows.
+9. AVCM configuration for Windows VM, switch the graphics option to from ramfb to virtio-gpu.
+
+Note: This driver use a hardware cursor which causes the default Windows white arrow cursor to not display properly. If you leave the "unhide mouse pointer" checked, then you will see the Mac cursor and it avoids the invisible cursor issue. Alternatively, you can switch the cursor option in Windows to use the Black cursor instead of the White cursor, and then uncheck the "unhide mouse pointer" in ACVM.
