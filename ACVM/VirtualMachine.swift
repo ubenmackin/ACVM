@@ -26,6 +26,7 @@ struct VmConfiguration: Codable {
     var sshPortForward:Bool = false
     var rdpPortForward:Bool = false
     var architecture:String = "aarch64"
+    var advancedoptions:String = ""
     
     enum CodingKeys: String, CodingKey {
         case vmname = "vmname"
@@ -45,6 +46,7 @@ struct VmConfiguration: Codable {
         case sshPortForward = "sshPortForward"
         case rdpPortForward = "rdpPortForward"
         case architecture = "architecture"
+        case advancedoptions = "advancedoptions"
     }
     
     init() {
@@ -70,6 +72,7 @@ struct VmConfiguration: Codable {
         sshPortForward = try values.decodeIfPresent(Bool.self, forKey: .sshPortForward) ?? false
         rdpPortForward = try values.decodeIfPresent(Bool.self, forKey: .rdpPortForward) ?? false
         architecture = try values.decodeIfPresent(String.self, forKey: .architecture) ?? "aarch64"
+        advancedoptions = try values.decodeIfPresent(String.self, forKey: .advancedoptions) ?? ""
     }
 }
 

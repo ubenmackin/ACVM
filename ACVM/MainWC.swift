@@ -320,7 +320,7 @@ class MainWC: NSWindowController {
                 "-device", "intel-hda",
                 "-device", "hda-duplex",
                 "-chardev", "socket,id=mon0,host=localhost,port=\(port),server,nowait",
-                "-mon", "chardev=mon0,mode=control,pretty=on"
+                "-mon", "chardev=mon0,mode=control,pretty=on",
             ]
         } else if virtMachine.config.architecture == "x86_64" {
             arguments += [
@@ -399,6 +399,35 @@ class MainWC: NSWindowController {
             ]
         }
 
+        if !virtMachine.config.advancedoptions.isEmpty {
+            
+            let pattern = "([^\\s\"]+|\"[^\"]+\")"
+            let regex = try! NSRegularExpression(pattern: pattern, options: [])
+
+            let line = virtMachine.config.advancedoptions
+
+            let result = regex.matches(in: line, options: [], range: NSRange(0..<line.utf16.count))
+                .map{(line as NSString).substring(with: $0.range(at: 1)).trimmingCharacters(in: CharacterSet(charactersIn: "\""))}
+
+            var strVal = ""
+            var args: [String] = []
+            for arg in result {
+                
+                if arg.last == "=" {
+                    strVal = arg
+                } else {
+                    if strVal == "" {
+                        args += [arg]
+                    } else {
+                        args += [strVal + arg]
+                        strVal = ""
+                    }
+                }
+            }
+            
+            arguments += args
+        }
+        
         process.arguments = arguments
         process.qualityOfService = .userInteractive
         

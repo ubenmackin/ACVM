@@ -14,6 +14,7 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     @IBOutlet weak var cpuTabButton: NSButton!
     @IBOutlet weak var disksTabButton: NSButton!
     @IBOutlet weak var networkTabButton: NSButton!
+    @IBOutlet weak var advancedTabButton: NSButton!
     
     @IBOutlet weak var actionButton: NSButton!
     @IBOutlet weak var cancelButton: NSButton!
@@ -48,6 +49,10 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     @IBOutlet weak var useSSHPortForward: NSButton!
     @IBOutlet weak var useRDPPortForward: NSButton!
     
+    // Advanced Pane
+    @IBOutlet weak var advancedTextField: NSTextField!
+    
+    
     var virtMachine:VirtualMachine = VirtualMachine()
     
     // MARK: Navigation Buttons
@@ -56,6 +61,7 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         cpuTabButton.isBordered = true
         disksTabButton.isBordered = false
         networkTabButton.isBordered = false
+        advancedTabButton.isBordered = false
         
         tabView.selectTabViewItem(at: 0)
         self.preferredContentSize = NSSize(width: 548, height: 438)
@@ -67,6 +73,7 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         cpuTabButton.isBordered = false
         disksTabButton.isBordered = true
         networkTabButton.isBordered = false
+        advancedTabButton.isBordered = false
         
         tabView.selectTabViewItem(at: 1)
         self.preferredContentSize = NSSize(width: 548, height: 438)
@@ -78,12 +85,24 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         cpuTabButton.isBordered = false
         disksTabButton.isBordered = false
         networkTabButton.isBordered = true
+        advancedTabButton.isBordered = false
         
         tabView.selectTabViewItem(at: 2)
         self.preferredContentSize = NSSize(width: 548, height: 438)
         
         //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 438), display: true, animate: true)
     }
+    
+    @IBAction func didTapAdvancedButton(_ sender: NSButton) {
+        cpuTabButton.isBordered = false
+        disksTabButton.isBordered = false
+        networkTabButton.isBordered = false
+        advancedTabButton.isBordered = true
+        
+        tabView.selectTabViewItem(at: 4)
+        self.preferredContentSize = NSSize(width: 548, height: 438)
+    }
+    
     
     // MARK: Remainder of Class
     
@@ -191,6 +210,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             arm64RadioButton.state = .off
             x64RadioButton.state = .on
         }
+        
+        advancedTextField.stringValue = virtMachine.config.advancedoptions
     }
     
     @IBAction func onGraphicChange(_ sender: Any) {
@@ -278,6 +299,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                 } else if x64RadioButton.state == .on {
                     virtMachine.config.architecture =  "x86_64"
                 }
+                
+                virtMachine.config.advancedoptions = advancedTextField.stringValue
                 
                 if !FileManager.default.fileExists(atPath: virtMachine.config.nvram) {
                     let appSupportURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
