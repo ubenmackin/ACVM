@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		802C3F2C25D6CFDB00B572B1 /* libjpeg.9.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 802C3F2825D6CEE500B572B1 /* libjpeg.9.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		802C3F2D25D6CFDB00B572B1 /* libpng16.16.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 802C3F2625D6CEDC00B572B1 /* libpng16.16.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B633E36EB39ED956691F1478 /* Pods_ACVM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1978F9AFBE672B763161F8B2 /* Pods_ACVM.framework */; };
 		CC032B622574D9A6002CE035 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC032B612574D9A6002CE035 /* AppDelegate.swift */; };
 		CC032B642574D9A6002CE035 /* VMConfigVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC032B632574D9A6002CE035 /* VMConfigVC.swift */; };
@@ -45,6 +47,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				802C3F2C25D6CFDB00B572B1 /* libjpeg.9.dylib in Embed Libraries */,
+				802C3F2D25D6CFDB00B572B1 /* libpng16.16.dylib in Embed Libraries */,
 				CC032B9A2574EADD002CE035 /* libffi.7.dylib in Embed Libraries */,
 				CC032BA12574EAE4002CE035 /* libpcre.1.dylib in Embed Libraries */,
 				CC032B9F2574EAE2002CE035 /* libgobject-2.0.0.dylib in Embed Libraries */,
@@ -63,6 +67,8 @@
 /* Begin PBXFileReference section */
 		02A7AB5C4544449BE84EB25A /* Pods-ACVM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ACVM.debug.xcconfig"; path = "Target Support Files/Pods-ACVM/Pods-ACVM.debug.xcconfig"; sourceTree = "<group>"; };
 		1978F9AFBE672B763161F8B2 /* Pods_ACVM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ACVM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		802C3F2625D6CEDC00B572B1 /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libpng16.16.dylib; sourceTree = "<group>"; };
+		802C3F2825D6CEE500B572B1 /* libjpeg.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libjpeg.9.dylib; sourceTree = "<group>"; };
 		C4F993756CA48707ED838C96 /* Pods-ACVM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ACVM.release.xcconfig"; path = "Target Support Files/Pods-ACVM/Pods-ACVM.release.xcconfig"; sourceTree = "<group>"; };
 		CC032B5E2574D9A6002CE035 /* ACVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ACVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC032B612574D9A6002CE035 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -184,6 +190,8 @@
 		CC032B862574EAC7002CE035 /* Dylibs */ = {
 			isa = PBXGroup;
 			children = (
+				802C3F2825D6CEE500B572B1 /* libjpeg.9.dylib */,
+				802C3F2625D6CEDC00B572B1 /* libpng16.16.dylib */,
 				CC032B8A2574EAD5002CE035 /* libffi.7.dylib */,
 				CC032B882574EAD5002CE035 /* libgio-2.0.0.dylib */,
 				CC032B872574EAD5002CE035 /* libglib-2.0.0.dylib */,
