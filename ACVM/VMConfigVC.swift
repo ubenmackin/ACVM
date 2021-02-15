@@ -29,7 +29,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     @IBOutlet weak var unhideMousePointer: NSButton!
     @IBOutlet weak var arm64RadioButton: NSButton!
     @IBOutlet weak var x64RadioButton: NSButton!
-    
+    @IBOutlet weak var startFullScreen: NSButton!
+
     // Disk Pane
     @IBOutlet weak var mainImage: FileDropView!
     @IBOutlet weak var useVirtIOForDisk: NSButton!
@@ -145,6 +146,12 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             unhideMousePointer.state = .off
         }
         
+        if virtMachine.config.startFullScreen {
+            startFullScreen.state = .on
+        } else {
+            startFullScreen.state = .off
+        }
+
         if virtMachine.config.mainImageUseVirtIO {
             useVirtIOForDisk.state = .on
         } else {
@@ -234,6 +241,12 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                     virtMachine.config.unhideMousePointer = true
                 }
                 
+                if startFullScreen.state == .off {
+                    virtMachine.config.startFullScreen = false
+                } else {
+                    virtMachine.config.startFullScreen = true
+                }
+
                 if useVirtIOForDisk.state == .off {
                     virtMachine.config.mainImageUseVirtIO = false
                 } else {

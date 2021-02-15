@@ -319,8 +319,8 @@ class MainWC: NSWindowController {
                 "-drive", "file=\(virtMachine.config.nvram),format=raw,if=pflash,index=1",
                 "-device", "intel-hda",
                 "-device", "hda-duplex",
-                "-chardev", "socket,id=mon0,host=localhost,port=\(port),server,nowait",
-                "-mon", "chardev=mon0,mode=control,pretty=on"
+                "-chardev", "socket,id=mon0,host=localhost,port=\(port),server=on,wait=off",
+                "-mon", "chardev=mon0,mode=control,pretty=on",
             ]
         } else if virtMachine.config.architecture == "x86_64" {
             arguments += [
@@ -341,7 +341,7 @@ class MainWC: NSWindowController {
                 "-drive", "file=\(virtMachine.config.nvram),format=raw,if=pflash,index=1",
                 "-device", "intel-hda",
                 "-device", "hda-duplex",
-                "-chardev", "socket,id=mon0,host=localhost,port=\(port),server,nowait",
+                "-chardev", "socket,id=mon0,host=localhost,port=\(port),server=on,wait=off",
                 "-mon", "chardev=mon0,mode=control,pretty=on"
             ]
         }
@@ -388,6 +388,12 @@ class MainWC: NSWindowController {
             ]
         }
         
+        if virtMachine.config.startFullScreen{
+            arguments += [
+                "-full-screen",
+            ]
+        }
+
         if 1==0 {
             arguments += [
                 //"-usb", "-device", "nec-usb-xhci",

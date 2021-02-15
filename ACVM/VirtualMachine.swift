@@ -16,6 +16,7 @@ struct VmConfiguration: Codable {
     var cdImage:String = ""
     var cdImage2:String = ""
     var unhideMousePointer:Bool = false
+    var startFullScreen:Bool = false
     var graphicOptions:String = ""
     var nicOptions:String = ""
     var nvram:String = ""
@@ -35,6 +36,7 @@ struct VmConfiguration: Codable {
         case cdImage = "cdImage"
         case cdImage2 = "cdImage2"
         case unhideMousePointer = "unhideMousePointer"
+        case startFullScreen = "startFullScreen"
         case graphicOptions = "graphicOptions"
         case nicOptions = "nicOptions"
         case nvram = "nvram"
@@ -60,6 +62,7 @@ struct VmConfiguration: Codable {
         cdImage = try values.decodeIfPresent(String.self, forKey: .cdImage) ?? ""
         cdImage2 = try values.decodeIfPresent(String.self, forKey: .cdImage2) ?? ""
         unhideMousePointer = try values.decodeIfPresent(Bool.self, forKey: .unhideMousePointer) ?? false
+        startFullScreen = try values.decodeIfPresent(Bool.self, forKey: .startFullScreen) ?? false
         graphicOptions = try values.decodeIfPresent(String.self, forKey: .graphicOptions) ?? ""
         nicOptions = try values.decodeIfPresent(String.self, forKey: .nicOptions) ?? ""
         nvram = try values.decodeIfPresent(String.self, forKey: .nvram) ?? ""

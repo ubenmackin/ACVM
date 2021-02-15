@@ -948,6 +948,14 @@ virtio-gpu is recommended for Linux guests.</string>
                                                         <action selector="didTapX64Button:" target="XfG-lQ-9wD" id="1CG-9O-w9H"/>
                                                     </connections>
                                                 </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ff5-l3-XAR">
+                                                    <rect key="frame" x="327" y="71" width="121" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="start full screen" bezelStyle="regularSquare" imagePosition="left" inset="2" id="CdT-JW-evL">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -1334,6 +1342,7 @@ DQ
                         <outlet property="removeCD2Button" destination="R99-re-Hzz" id="OdD-M9-Jwz"/>
                         <outlet property="removeCDButton" destination="Ia5-Sv-hWB" id="3Tb-aE-tQI"/>
                         <outlet property="resetNVRAMButton" destination="7dO-Vc-vt4" id="Dfg-R5-o0H"/>
+                        <outlet property="startFullScreen" destination="ff5-l3-XAR" id="L0I-E0-TPs"/>
                         <outlet property="tabView" destination="IAI-X5-IhU" id="GcS-S8-Ks8"/>
                         <outlet property="unhideMousePointer" destination="SW6-Fx-2XD" id="4ew-EO-eew"/>
                         <outlet property="useRDPPortForward" destination="6BN-82-kvN" id="m5b-0g-fOP"/>
