@@ -14,7 +14,9 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     @IBOutlet weak var cpuTabButton: NSButton!
     @IBOutlet weak var disksTabButton: NSButton!
     @IBOutlet weak var networkTabButton: NSButton!
-    
+    @IBOutlet weak var advancedTabButton: NSButton!
+    @IBOutlet weak var snapshotTabButton: NSButton!
+
     @IBOutlet weak var actionButton: NSButton!
     @IBOutlet weak var cancelButton: NSButton!
     @IBOutlet weak var resetNVRAMButton: NSButton!
@@ -49,6 +51,13 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
     @IBOutlet weak var useSSHPortForward: NSButton!
     @IBOutlet weak var useRDPPortForward: NSButton!
     
+    // Advanced Pane
+    @IBOutlet weak var advancedTextField: NSTextField!
+
+    // Snapshot Pane
+    @IBOutlet weak var baseTextField: NSTextField!
+    @IBOutlet weak var snapshotTextField: NSTextField!
+
     var virtMachine:VirtualMachine = VirtualMachine()
     
     // MARK: Navigation Buttons
@@ -57,7 +66,9 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         cpuTabButton.isBordered = true
         disksTabButton.isBordered = false
         networkTabButton.isBordered = false
-        
+        advancedTabButton.isBordered = false
+        snapshotTabButton.isBordered = false
+
         tabView.selectTabViewItem(at: 0)
         self.preferredContentSize = NSSize(width: 548, height: 438)
 
@@ -68,7 +79,9 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         cpuTabButton.isBordered = false
         disksTabButton.isBordered = true
         networkTabButton.isBordered = false
-        
+        advancedTabButton.isBordered = false
+        snapshotTabButton.isBordered = false
+
         tabView.selectTabViewItem(at: 1)
         self.preferredContentSize = NSSize(width: 548, height: 438)
 
@@ -79,13 +92,38 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         cpuTabButton.isBordered = false
         disksTabButton.isBordered = false
         networkTabButton.isBordered = true
-        
+        advancedTabButton.isBordered = false
+        snapshotTabButton.isBordered = false
+
         tabView.selectTabViewItem(at: 2)
         self.preferredContentSize = NSSize(width: 548, height: 438)
         
         //view.window?.setFrame(NSRect(x: 0, y: 0, width: 456, height: 438), display: true, animate: true)
     }
     
+    @IBAction func didTapAdvancedButton(_ sender: NSButton) {
+        cpuTabButton.isBordered = false
+        disksTabButton.isBordered = false
+        networkTabButton.isBordered = false
+        advancedTabButton.isBordered = true
+        snapshotTabButton.isBordered = false
+
+        tabView.selectTabViewItem(at: 3)
+        self.preferredContentSize = NSSize(width: 548, height: 438)
+    }
+    
+    @IBAction func didTapSnapshotButton(_ sender: NSButton) {
+        cpuTabButton.isBordered = false
+        disksTabButton.isBordered = false
+        networkTabButton.isBordered = false
+        advancedTabButton.isBordered = false
+        snapshotTabButton.isBordered = true
+
+        tabView.selectTabViewItem(at: 5)
+        self.preferredContentSize = NSSize(width: 548, height: 438)
+    }
+
+
     // MARK: Remainder of Class
     
     override func viewDidLoad() {
@@ -139,6 +177,12 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             removeCD2Button.isEnabled = true
             mountCDImage2.isEnabled = true
         }
+
+        baseTextField.stringValue = virtMachine.config.base
+        if (baseTextField.stringValue == "") {
+            baseTextField.stringValue = mainImageFilePath
+        }
+        snapshotTextField.stringValue = virtMachine.config.snapshot
         
         if virtMachine.config.unhideMousePointer {
             unhideMousePointer.state = .on
@@ -207,7 +251,96 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
             unhideMousePointer.state = .on;
         }
     }
+
+    @IBAction func didTapCreateSnapshotButton(_ sender: NSButton) {
+        if virtMachine.config.snapshot != "" {
+            NSLog("warning: overwriting existing snapshot")
+        }
+        var filename = virtMachine.config.base
+        var ext = ""
+        var components = filename.components(separatedBy: ".")
+        if components.count > 1 {
+            ext = components.removeLast()
+            filename = components.joined(separator: ".")
+        }
+        virtMachine.config.snapshot = filename + "-snapshot." + ext
+        snapshotTextField.stringValue = virtMachine.config.snapshot
+        didTapSaveButton(sender)
+        let qemuimg = Process()
+        qemuimg.executableURL = Bundle.main.url(
+            forResource: "qemu-img",
+            withExtension: nil
+        )
+
+        let qi_arguments: [String] = [
+            "create", "-f",
+            "qcow2",
+            "-b", virtMachine.config.base, virtMachine.config.snapshot
+        ]
+
+        qemuimg.arguments = qi_arguments
+        qemuimg.qualityOfService = .userInteractive
+
+        do {
+            try qemuimg.run()
+            virtMachine.config.mainImage = virtMachine.config.snapshot // now use the snapshot as main image
+            let mainImageFilePath = virtMachine.config.mainImage
+            if FileManager.default.fileExists(atPath: mainImageFilePath) {
+                let contentURL = URL(fileURLWithPath: mainImageFilePath)
+                mainImage.contentURL = contentURL
+                mainImage.toolTip = URL(fileURLWithPath: virtMachine.config.mainImage).lastPathComponent
+            }
+        } catch {
+            NSLog("Failed to run, error: \(error)")
+        }
+
+    }
     
+    @IBAction func didTapMergeSnapshotButton(_ sender: NSButton) {
+        if virtMachine.config.snapshot != "" {
+            let qemuimg = Process()
+            qemuimg.executableURL = Bundle.main.url(
+                forResource: "qemu-img",
+                withExtension: nil
+            )
+
+            let qi_arguments: [String] = [
+                "commit",
+                virtMachine.config.snapshot
+            ]
+
+            qemuimg.arguments = qi_arguments
+            qemuimg.qualityOfService = .userInteractive
+
+            do {
+                try qemuimg.run()
+            } catch {
+                NSLog("Failed to run, error: \(error)")
+            }
+        }
+    }
+
+    @IBAction func didTapDeleteSnapshotButton(_ sender: NSButton) {
+        if virtMachine.config.snapshot != "" {
+            let toDelete = virtMachine.config.snapshot
+            virtMachine.config.snapshot = ""
+            virtMachine.config.mainImage = virtMachine.config.base
+            snapshotTextField.stringValue = ""
+            let mainImageFilePath = virtMachine.config.mainImage
+            if FileManager.default.fileExists(atPath: mainImageFilePath) {
+                let contentURL = URL(fileURLWithPath: mainImageFilePath)
+                mainImage.contentURL = contentURL
+                mainImage.toolTip = URL(fileURLWithPath: virtMachine.config.mainImage).lastPathComponent
+            }
+            didTapSaveButton(sender)
+            do {
+                try FileManager.default.removeItem(atPath: toDelete)
+            } catch {
+                NSLog("Failed to delete snapshot")
+            }
+        }
+    }
+
     @IBAction func didTapSaveButton(_ sender: NSButton) {
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .xml
@@ -232,6 +365,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
                 virtMachine.config.cores = Int(numberOfCores) ?? 4
                 virtMachine.config.ram = (Int(ramSize) ?? 4096)
                 virtMachine.config.mainImage = mainImage.contentURL?.path ?? ""
+                virtMachine.config.base = baseTextField.stringValue
+                virtMachine.config.snapshot = snapshotTextField.stringValue
                 virtMachine.config.cdImage = cdImage.contentURL?.path ?? ""
                 virtMachine.config.cdImage2 = cdImage2.contentURL?.path ?? ""
                 
@@ -438,6 +573,8 @@ class VMConfigVC: NSViewController, FileDropViewDelegate {
         case mainImage:
             mainImage.contentURL = contentURL
             mainImage.toolTip = contentURL.lastPathComponent
+            baseTextField.stringValue = contentURL.path
+            virtMachine.config.base = baseTextField.stringValue
         case cdImage:
             cdImage.contentURL = contentURL
             cdImage.toolTip = contentURL.lastPathComponent

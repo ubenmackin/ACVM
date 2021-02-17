@@ -13,6 +13,8 @@ struct VmConfiguration: Codable {
     var cores:Int = 4
     var ram:Int = 4096
     var mainImage:String = ""
+    var base:String = ""
+    var snapshot:String = ""
     var cdImage:String = ""
     var cdImage2:String = ""
     var unhideMousePointer:Bool = false
@@ -33,6 +35,8 @@ struct VmConfiguration: Codable {
         case cores = "cores"
         case ram = "ram"
         case mainImage = "mainImage"
+        case base = "base"
+        case snapshot = "snapshot"
         case cdImage = "cdImage"
         case cdImage2 = "cdImage2"
         case unhideMousePointer = "unhideMousePointer"
@@ -59,6 +63,8 @@ struct VmConfiguration: Codable {
         cores = try values.decodeIfPresent(Int.self, forKey: .cores) ?? 4
         ram = try values.decodeIfPresent(Int.self, forKey: .ram) ?? 4096
         mainImage = try values.decodeIfPresent(String.self, forKey: .mainImage) ?? ""
+        base = try values.decodeIfPresent(String.self, forKey: .base) ?? ""
+        snapshot = try values.decodeIfPresent(String.self, forKey: .snapshot) ?? ""
         cdImage = try values.decodeIfPresent(String.self, forKey: .cdImage) ?? ""
         cdImage2 = try values.decodeIfPresent(String.self, forKey: .cdImage2) ?? ""
         unhideMousePointer = try values.decodeIfPresent(Bool.self, forKey: .unhideMousePointer) ?? false
